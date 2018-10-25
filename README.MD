@@ -26,7 +26,7 @@ _app description here_
 ### Team
 
 - [LJ](https://www.github.com/lamesensei)
-- [TJ](#)
+- [TJ](https://github.com/fatchanc3)
 - [Chris](https://github.com/chrismintan)
 - [Mervyn](https://github.com/mervyns)
 
