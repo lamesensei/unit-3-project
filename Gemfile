@@ -60,3 +60,17 @@ end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+
+# Project Gems
+# Bootstrap
+gem 'bootstrap', '~> 4.1.3'
+gem 'jquery-rails'
+
+# .env for storing API keys
+gem 'dotenv-rails', require: 'dotenv/rails-now'
+
+# Upgrade rails console
+gem 'pry-rails', :group => :development
+
+# Others
+gem 'devise'
