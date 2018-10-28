@@ -1,8 +1,8 @@
 # Unit 3 - Group Project
 
-A Ruby on Rails CRUD app
+_A Ruby on Rails CRUD app_
 
-_app description here_
+Never worry about travel time ever again - this app will find the best spots in Singapore to meet your buddies.
 
 ## Features / TODO
 
@@ -35,6 +35,6 @@ _app description here_
 - [Ideas](docs/ideas.md)
 - [User Stories](docs/user-stories.md)
 - [Wireframes](#)
-- [ERD](#)
+- [ERD](docs/ERD)
 
 ### Others
