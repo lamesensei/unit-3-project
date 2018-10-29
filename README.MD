@@ -26,7 +26,6 @@ Never worry about travel time ever again - this app will find the best spots in 
 ### Team
 
 - [LJ](https://www.github.com/lamesensei)
-- [TJ](https://github.com/fatchanc3)
 - [Chris](https://github.com/chrismintan)
 - [Mervyn](https://github.com/mervyns)
 
