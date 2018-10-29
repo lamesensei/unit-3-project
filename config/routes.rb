@@ -8,7 +8,11 @@ Rails.application.routes.draw do
 
   resources :profiles
 
-  resources :groups
+  resources :groups do
+    resources :members
+  end
+
+  resources :members
 
   root "groups#index"
 end
