@@ -1,0 +1,7 @@
+<%=form_with model: @group, local: true do |f|%>
+	  <%=f.label :code%>
+		<%=f.text_field :code%>
+		<%=f.label :size%>
+		<%=f.text_field :size%>
+		<%=f.submit%>
+<%end%>
