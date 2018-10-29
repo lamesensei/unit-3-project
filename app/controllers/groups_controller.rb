@@ -2,7 +2,7 @@ class GroupsController < ApplicationController
   def index
     if params[:code]
       @group = Group.find_by(code: params[:code])
-      redirect_to group_path(@group)
+      redirect_to group_path(@group) if @group.present?
     end
   end
 
