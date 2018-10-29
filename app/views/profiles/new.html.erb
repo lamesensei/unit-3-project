@@ -1,0 +1,9 @@
+<%=form_with model: @profile, url: user_profiles_path, local: true do |f|%>
+	  <%=f.label :username%>
+		<%=f.text_field :username%>
+		<%=f.label :fullname%>
+		<%=f.text_field :fullname%>
+		<%=f.label :age%>
+		<%=f.number_field :age%>
+		<%=f.submit%>
+<%end%>
