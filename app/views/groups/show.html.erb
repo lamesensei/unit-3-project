@@ -1,11 +1,16 @@
 <h1>
-<%=@group.code%>
+Group Code: <%=@group.code%>
 </h1>
 <h1>
-<%=@group.size%>
+Size: <%=@group.size%>
 </h1>
 
-<h1><%= current_user.email + ':' %></h1>
+<%#=link_to 'Add Member', new_group_member_path(@group)%>
+<ol>
+	<%@members.each do |member|%>
+	<li><%=member.name%>, Lat: <%=member.lat%>, Lon:<%=member.lon%>, Place: <%=member.place%></li>
+	<%end%>
+</ol>
 
 <div class="container">
 	<div class="row">
@@ -20,7 +25,6 @@
 		<div id="map"></div>
 	</div>
 </div>
-
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCM3MixfBEjbgbPdvlSEu8kubULJuXv9bg&libraries=places&callback=initMap"
