@@ -4,9 +4,30 @@ Group Code: <%=@group.code%>
 <h1>
 Size: <%=@group.size%>
 </h1>
+
 <%=link_to 'Add Member', new_group_member_path(@group)%>
 <ol>
 	<%@members.each do |member|%>
 	<li><%=member.name%></li>
 	<%end%>
 </ol>
+
+<h1><%= current_user.email + ':' %></h1>
+
+<div class="container">
+	<div class="row">
+		<div id="map"></div>
+	</div>
+	<div class="row">
+		<div id='floating-panel'>
+			<input id="person" type="text" autocomplete="off" placeholder="Search Address..."/>
+			<input type="text" id="lat" name="lat"/>
+		  <input type="text" id="lon" name="lon"/>
+		  <button id="place" class="btn btn-primary">Place</button>
+		</div>
+	</div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCM3MixfBEjbgbPdvlSEu8kubULJuXv9bg&libraries=places&callback=initMap"
+    async defer></script>
