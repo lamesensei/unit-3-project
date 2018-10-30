@@ -1,7 +1,12 @@
 <h1>
-<%=@group.code%>
+Group Code: <%=@group.code%>
 </h1>
 <h1>
-<%=@group.size%>
+Size: <%=@group.size%>
 </h1>
 <%=link_to 'Add Member', new_group_member_path(@group)%>
+<ol>
+	<%@members.each do |member|%>
+	<li><%=member.name%></li>
+	<%end%>
+</ol>

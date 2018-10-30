@@ -11,9 +11,11 @@ class MembersController < ApplicationController
 
   def create
     @member = Member.new(member_params)
-    @member.group = Group.find(params[:group_id])
+    @group = Group.find(params[:group_id])
+    @member.group = @group
     #@member.user = User.find(current_user.id) if current_user.present?
     @member.save
+    redirect_to @group
   end
 
   private
