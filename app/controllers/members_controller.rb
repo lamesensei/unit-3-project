@@ -10,8 +10,8 @@ class MembersController < ApplicationController
   end
 
   def create
-    @member = Member.new(member_params)
-    @group = Group.find(params[:group_id])
+    @member = Member.new(name: params[:member][:name])
+    @group = Group.find_by(code: params[:member][:code])
     @member.group = @group
     #@member.user = User.find(current_user.id) if current_user.present?
     @member.save
@@ -21,6 +21,6 @@ class MembersController < ApplicationController
   private
 
   def member_params
-    params.require(:member).permit(:name, :group_id)
+    params.require(:member).permit(:name, :code)
   end
 end

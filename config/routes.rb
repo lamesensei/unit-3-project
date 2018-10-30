@@ -8,7 +8,7 @@ Rails.application.routes.draw do
 
   resources :profiles
 
-  resources :groups do
+  resources :groups, param: :code do
     resources :members
   end
 

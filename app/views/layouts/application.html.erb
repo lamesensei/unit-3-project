@@ -11,7 +11,11 @@
     <p class="notice"><%= notice %></p>
     <p class="alert"><%= alert %></p>
     <nav>
+      <%=link_to 'Home', groups_path%>
       <% if user_signed_in? %>
+        <strong>
+          <p><%=current_user.email%> logged in</p>
+        </strong>
         <%if current_user.profile%>
           <%=link_to 'Profile', user_profile_path(current_user.id, current_user.profile.id)%>
         <%else%>
