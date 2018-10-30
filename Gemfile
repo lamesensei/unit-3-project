@@ -74,3 +74,5 @@ gem 'pry-rails', :group => :development
 
 # Others
 gem 'devise'
+gem 'geocoder'
+gem 'gon'
