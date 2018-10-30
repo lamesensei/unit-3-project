@@ -19,6 +19,11 @@ class GroupsController < ApplicationController
   def create
     @group = Group.new(group_params)
     @group.save
+    @user = User.find(current_user.id)
+    @member = Member.new(name: current_user.profile.fullname)
+    @member.group = @group
+    @member.user = @user
+    @member.save
     redirect_to @group
   end
 
