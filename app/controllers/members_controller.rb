@@ -18,6 +18,10 @@ class MembersController < ApplicationController
     redirect_to @group
   end
 
+  def update
+    # redirect_to root_path
+  end
+
   private
 
   def member_params

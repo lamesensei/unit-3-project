@@ -1,7 +1,7 @@
 
 #map {
   height: 70vh;
-  width: auto;
+  width: 100%;
 }
 
 html, body {
@@ -10,7 +10,7 @@ html, body {
   padding: 0;
 }
 
-#floating-panel {
+#panel {
   position: relative;
   z-index: 5;
   background-color: #fff;

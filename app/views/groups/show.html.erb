@@ -14,17 +14,41 @@ Size: <%=@group.size%>
 
 <%# <div class="container">
 	<div class="row">
-		<div id="map"></div>
-	</div>
-	<div class="row">
-		<div id='floating-panel'>
-			<input id="person" type="text" autocomplete="off" placeholder="Search Address..."/>
+		<div id='panel'>
+<!-- 			<input id="person" type="text" autocomplete="off" placeholder="Search Address..."/>
 			<input type="text" id="lat" name="lat"/>
 		  <input type="text" id="lon" name="lon"/>
-		  <button id="place" class="btn btn-primary">Place</button>
+		  <button id="place" class="btn btn-primary">Place</button> -->
+
+<div class="form-row align-items-center">
+	<div class="col">
+		<%= form_for :member, url: member_path(@members.last), method: :patch do |form| %>
+
+		<%= form.hidden_field :lat, {:id => "lat"} %>
+		<%= form.hidden_field :lon, {:id => "lon"} %>
+
+		<%= form.label :Address %>
+
+		<%= form.text_field( :place, {:id => "person"}) %>
+
+		<span class="btn btn-primary" id="place">Place</span>
+
+		<%= form.submit(class: "btn btn-primary", value: "Submit") %>
+
+		<% end %>
+	</div>
+</div>
+
 		</div>
 	</div>
-</div> %>
+
+	<div class="row">
+
+	</div>
+</div>
+
+
+<div id="map"></div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCM3MixfBEjbgbPdvlSEu8kubULJuXv9bg&libraries=places&callback=initMap"
