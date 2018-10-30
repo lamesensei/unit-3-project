@@ -5,14 +5,12 @@ Group Code: <%=@group.code%>
 Size: <%=@group.size%>
 </h1>
 
-<%=link_to 'Add Member', new_group_member_path(@group)%>
+<%#=link_to 'Add Member', new_group_member_path(@group)%>
 <ol>
 	<%@members.each do |member|%>
 	<li><%=member.name%></li>
 	<%end%>
 </ol>
-
-<h1><%= current_user.email + ':' %></h1>
 
 <div class="container">
 	<div class="row">
