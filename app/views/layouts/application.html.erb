@@ -34,6 +34,8 @@
             </div>
           </div>
           <div class="navbar-nav">
+            <span class="nav-item navbar-text text-white"><%= notice %></span>
+            <span class="nav-item navbar-text text-danger"><%= alert %></span>
             <%= link_to'Logout', destroy_user_session_path, method: :delete, class: "nav-item nav-link" %>
           <% else %>
             <%= link_to'Login', new_user_session_path, class: "nav-item nav-link"  %>
@@ -42,8 +44,6 @@
         <% end %>
       </div>
     </nav>
-    <p class="notice"><%= notice %></p>
-    <p class="alert"><%= alert %></p>
     <%= yield %>
   </body>
 </html>
