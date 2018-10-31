@@ -6,6 +6,7 @@ body {
   background: url(https://picsum.photos/1920/1080/?random);
   background-position: center;
   background-size: cover;
+  background-repeat: no-repeat;
 }
 
 .title {
@@ -23,8 +24,12 @@ body {
   margin-top: 17vh;
 }
 
+.nobg {
+  background: white;
+}
+
 #map {
-  height: 70vh;
+  height: 70%;
   width: 100%;
 }
 

@@ -1,77 +1,63 @@
-
-<h1>
-  Group Code: <%=@group.code%>
-</h1>
-<h1>
-  Size: <%=@group.size%>
-</h1>
-<ol>
-  <%@members.each do |member|%>
-    <li><%=member.name%>, Lat: <%=member.lat%>, Lon:<%=member.lon%>, Place: <%=member.place%></li>
-  <%end%>
-</ol>
-
-<div id="allLat">
-  <%@members.each do |member|%>
-    <div class="lats"><%= member.lat %></div>
-  <%end%>
-</div>
-
-<div id="allLon">
-	<%@members.each do |member|%>
-    <div class="lons"><%= member.lon %></div>
-  <%end%>
-</div>
-
-<div class="container-fluid">
-  <div class="row">
-    <div id='panel'>
-
-
-
-      <div class="d-flex justify-content-center">
-			  <select id="input">
-			  	<option value="">Fav1 - In Progress</option>
-			  	<option value="">Fav2</option>
-			  	<option value="">Fav3</option>
-			  	<option value="">Fav4</option>
-			  </select>
-        	<input id="person"/>
-
-            <span class="btn btn-primary" id="place">Place</span>
-
-
+<div class="container-fluid h-100 nobg">
+  <h1>
+    Group Code: <%=@group.code%>
+  </h1>
+  <h1>
+    Size: <%=@group.size%>
+  </h1>
+  <ol>
+    <%@members.each do |member|%>
+      <li><%=member.name%>, Lat: <%=member.lat%>, Lon:<%=member.lon%>, Place: <%=member.place%></li>
+    <%end%>
+  </ol>
+  <div id="allLat">
+    <%@members.each do |member|%>
+      <div class="lats"><%= member.lat %></div>
+    <%end%>
+  </div>
+  <div id="allLon">
+    <%@members.each do |member|%>
+      <div class="lons"><%= member.lon %></div>
+    <%end%>
+  </div>
+  <div class="container-fluid">
+    <div class="row">
+      <div id='panel'>
+        <div class="d-flex justify-content-center">
+          <%# <select id="input">
+	          <option value="">Fav1 - In Progress</option>
+	          <option value="">Fav2</option>
+	          <option value="">Fav3</option>
+	          <option value="">Fav4</option>
+	        </select> %>
+          <input id="person"/>
+          <span class="btn btn-primary" id="place">Place</span>
           <%= form_for :member, url: member_path(@members.last), method: :patch do |form| %>
             <%= form.hidden_field :lat, {:id => "lat"} %>
             <%= form.hidden_field :lon, {:id => "lon"} %>
             <%= form.hidden_field :place, {:id => "address"} %>
             <%= form.submit(class: "btn btn-primary", value: "Submit", id:  "confirm") %>
           <% end %>
-        <!-- </div> -->
+        </div>
       </div>
     </div>
+    <div class="row">
+    </div>
   </div>
-  <div class="row">
+  <div id="map"></div>
+  <div class="container">
+    <form>
+      <select id="type">
+        <option value="cafe">Coffee</option>
+        <option value="restaurant">Restaurants</option>
+        <option value="bar">Bars</option>
+        <option value="shopping_mall">Shopping</option>
+      </select>
+    </form>
+    <div id="listBoard"></div>
   </div>
+  <button class="btn btn-primary" id="calc">Locate Mid!</button>
+  <%# <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> %>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCM3MixfBEjbgbPdvlSEu8kubULJuXv9bg&libraries=places&callback=initMap"
+	    async defer></script>
 </div>
-<div id="map"></div>
-
-<div class="container">
-					<form>
-            <select id="type">
-                <option value="cafe">Coffee</option>
-                <option value="restaurant">Restaurants</option>
-                <option value="bar">Bars</option>
-                <option value="shopping_mall">Shopping</option>
-            </select>
-        </form>
-	<div id="listBoard"></div>
-</div>
-
-
-
-<button class="btn btn-primary" id="calc">Locate Mid!</button>
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCM3MixfBEjbgbPdvlSEu8kubULJuXv9bg&libraries=places&callback=initMap"
-    async defer></script>
