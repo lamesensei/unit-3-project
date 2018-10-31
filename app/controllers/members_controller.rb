@@ -19,7 +19,12 @@ class MembersController < ApplicationController
   end
 
   def update
-    # redirect_to root_path
+    @member = Member.find(params[:id])
+    @member.lat = params[:member][:lat]
+    @member.lon = params[:member][:lon]
+    @member.place = params[:member][:place]
+    @member.save
+    redirect_to root_path
   end
 
   private
