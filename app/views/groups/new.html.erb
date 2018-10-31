@@ -1,7 +1,14 @@
-<%=form_with model: @group, local: true do |f|%>
-	  <%=f.label :code%>
-		<%=f.text_field :code%>
-		<%=f.label :size%>
-		<%=f.text_field :size%>
-		<%=f.submit%>
-<%end%>
+<div class="jumbotron w-50 mx-auto p-4 shadow jumboform">
+  <h2 class="title">Create group</h2>
+  <p class="lead">Enter a code for sharing and set the maximum group size</p>
+  <hr>
+  <div class="form-group">
+    <%=form_with model: @group, local: true do |f|%>
+      <%=f.label :code%>
+      <%=f.text_field :code, class: "form-control"%>
+      <%=f.label :size%>
+      <%=f.text_field :size, class: "form-control"%>
+      <button type="submit" class="btn btn-sm btn-danger font-weight-bold mt-3">Submit</button>
+    <%end%>
+  </div>
+</div>
