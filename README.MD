@@ -11,11 +11,11 @@ Never worry about travel time ever again - this app will find the best spots in 
 - [ ] Problem Statement:
 - [ ] Problem Solution:
 - [ ] User Stories
-- [ ] ERD
+- [x] ERD
 
 ### Code
 
-- [ ] User Authentication
+- [x] User Authentication
 - [ ] User Authorization
 - [ ] File/image upload
 - [ ] API Usage
@@ -33,7 +33,7 @@ Never worry about travel time ever again - this app will find the best spots in 
 
 - [Ideas](docs/ideas.md)
 - [User Stories](docs/user-stories.md)
-- [Wireframes](#)
+- [Wireframes](docs/wireframes)
 - [ERD](docs/ERD)
 
 ### Others
