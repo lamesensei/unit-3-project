@@ -1,63 +1,93 @@
 <div class="container-fluid h-100 nobg">
-  <h1>
-    Group Code: <%=@group.code%>
+  <h1 class="display-3">
+    <%=@group.code%>
   </h1>
-  <h1>
-    Size: <%=@group.size%>
-  </h1>
-  <ol>
-    <%@members.each do |member|%>
-      <li><%=member.name%>, Lat: <%=member.lat%>, Lon:<%=member.lon%>, Place: <%=member.place%></li>
-    <%end%>
-  </ol>
-  <div id="allLat">
-    <%@members.each do |member|%>
-      <div class="lats"><%= member.lat %></div>
-    <%end%>
-  </div>
-  <div id="allLon">
-    <%@members.each do |member|%>
-      <div class="lons"><%= member.lon %></div>
-    <%end%>
-  </div>
-  <div class="container-fluid">
-    <div class="row">
-      <div id='panel'>
-        <div class="d-flex justify-content-center">
-          <%# <select id="input">
+  <div class="input-group">
+    <%# <select id="input">
 	          <option value="">Fav1 - In Progress</option>
 	          <option value="">Fav2</option>
 	          <option value="">Fav3</option>
 	          <option value="">Fav4</option>
 	        </select> %>
-          <input id="person"/>
-          <span class="btn btn-primary" id="place">Place</span>
-          <%= form_for :member, url: member_path(@members.last), method: :patch do |form| %>
-            <%= form.hidden_field :lat, {:id => "lat"} %>
-            <%= form.hidden_field :lon, {:id => "lon"} %>
-            <%= form.hidden_field :place, {:id => "address"} %>
-            <%= form.submit(class: "btn btn-primary", value: "Submit", id:  "confirm") %>
-          <% end %>
+    <input class="form-control" id="person" placeholder="Hi <%=@members.last.name%>! Please enter your current location."/>
+    <div class="input-group-append">
+      <span class="btn btn-success" id="place">Mark</span>
+      <label for="confirm" class="btn btn-success m-0 disabled" id="magicbutton" disabled>Submit</label>
+    </div>
+  </div>
+  <%= form_for :member, url: member_path(@members.last), method: :patch do |form| %>
+    <%= form.hidden_field :lat, {:id => "lat"} %>
+    <%= form.hidden_field :lon, {:id => "lon"} %>
+    <%= form.hidden_field :place, {:id => "address"} %>
+    <%= form.submit(class: "d-none", value: "Submit", id: "confirm", disabled: true) %>
+  <% end %>
+  <div class="card-group mt-2">
+    <%@members.each_with_index do |member, index|%>
+      <div class="card">
+        <%if index == 0%>
+          <div class="card-header">Owner</div>
+        <%else%>
+          <div class="card-header">Member</div>
+        <%end%>
+        <div class="card-body">
+          <h5 class="card-title">
+            <%=member.name%>
+          </h5>
+          <p class="card-text">
+            <%=member.place%>
+          </p>
+        </div>
+      </div>
+    <%end%>
+  </div>
+  <div class="d-none">
+    <div id="allLat">
+      <%@members.each do |member|%>
+        <div class="lats"><%= member.lat %></div>
+      <%end%>
+    </div>
+    <div id="allLon">
+      <%@members.each do |member|%>
+        <div class="lons"><%= member.lon %></div>
+      <%end%>
+    </div>
+  </div>
+  <div class="input-group mt-2">
+    <select class="custom-select" id="type" aria-label="Example select with button addon">
+      <option selected>Choose...</option>
+      <option value="cafe">Coffee</option>
+      <option value="restaurant">Restaurants</option>
+      <option value="bar">Bars</option>
+      <option value="shopping_mall">Shopping</option>
+    </select>
+    <div class="input-group-append">
+      <button class="btn btn-danger" type="button" id ="calc">Locate Mid</button>
+    </div>
+  </div>
+  <div id="map" class="w-100 mt-2"></div>
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-primary invisible m-2 mx-auto" data-toggle="modal" data-target="#resultmodal" id='resultmodalbutton'>
+    Show Recommendations
+  </button>
+  <!-- Modal -->
+  <div class="modal fade" id="resultmodal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">You should meet at...</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" id="listBoard">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         </div>
       </div>
     </div>
-    <div class="row">
-    </div>
   </div>
-  <div id="map"></div>
-  <div class="container">
-    <form>
-      <select id="type">
-        <option value="cafe">Coffee</option>
-        <option value="restaurant">Restaurants</option>
-        <option value="bar">Bars</option>
-        <option value="shopping_mall">Shopping</option>
-      </select>
-    </form>
-    <div id="listBoard"></div>
-  </div>
-  <button class="btn btn-primary" id="calc">Locate Mid!</button>
-  <%# <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> %>
+  <%# <div id="listBoard"></div> %>
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCM3MixfBEjbgbPdvlSEu8kubULJuXv9bg&libraries=places&callback=initMap"
 	    async defer></script>
 </div>
