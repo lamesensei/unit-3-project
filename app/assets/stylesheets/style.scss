@@ -3,7 +3,7 @@ body {
   height: 100%;
   margin: 0;
   padding: 0;
-  // background: url(https://picsum.photos/1920/1080/?random);
+  background: url(https://picsum.photos/1920/1080/?random);
   background-position: center;
   background-size: cover;
 }
@@ -40,15 +40,14 @@ body {
 }
 
 #confirm {
-	display: none;
-	// display: inline;
+  display: none;
+  // display: inline;
 }
 
 #allLat {
-	display: none;
+  display: none;
 }
 
 #allLon {
-	display: none;
+  display: none;
 }
-
