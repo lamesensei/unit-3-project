@@ -13,7 +13,7 @@ class MembersController < ApplicationController
     @member = Member.new(name: params[:member][:name])
     @group = Group.find_by(code: params[:member][:code])
     @member.group = @group
-    #@member.user = User.find(current_user.id) if current_user.present?
+    @member.user = User.find(current_user.id) if current_user.present?
     @member.save
     redirect_to @group
   end
@@ -24,7 +24,7 @@ class MembersController < ApplicationController
     @member.lon = params[:member][:lon]
     @member.place = params[:member][:place]
     @member.save
-    redirect_to root
+    redirect_to @member.group
   end
 
   private
