@@ -1,8 +1,8 @@
 <div class="container-fluid h-100 nobg">
-  <h1 class="title display-1">
+  <h1 class="display-3">
     <%=@group.code%>
   </h1>
-  <div class="input-group mb-3">
+  <div class="input-group">
     <%# <select id="input">
 	          <option value="">Fav1 - In Progress</option>
 	          <option value="">Fav2</option>
@@ -11,16 +11,17 @@
 	        </select> %>
     <input class="form-control" id="person" placeholder="Hi <%=@members.last.name%>! Please enter your current location."/>
     <div class="input-group-append">
-      <span class="btn btn-primary" id="place">Place</span>
+      <span class="btn btn-success" id="place">Mark</span>
+      <label for="confirm" class="btn btn-success m-0 disabled" id="magicbutton" disabled>Submit</label>
     </div>
-    <%= form_for :member, url: member_path(@members.last), method: :patch do |form| %>
-      <%= form.hidden_field :lat, {:id => "lat"} %>
-      <%= form.hidden_field :lon, {:id => "lon"} %>
-      <%= form.hidden_field :place, {:id => "address"} %>
-      <%= form.submit(class: "btn btn-primary", value: "Submit", id:  "confirm") %>
-    <% end %>
   </div>
-  <div class="card-group">
+  <%= form_for :member, url: member_path(@members.last), method: :patch do |form| %>
+    <%= form.hidden_field :lat, {:id => "lat"} %>
+    <%= form.hidden_field :lon, {:id => "lon"} %>
+    <%= form.hidden_field :place, {:id => "address"} %>
+    <%= form.submit(class: "d-none", value: "Submit", id: "confirm", disabled: true) %>
+  <% end %>
+  <div class="card-group mt-2">
     <%@members.each_with_index do |member, index|%>
       <div class="card">
         <%if index == 0%>
@@ -39,30 +40,34 @@
       </div>
     <%end%>
   </div>
-  <div id="allLat">
-    <%@members.each do |member|%>
-      <div class="lats"><%= member.lat %></div>
-    <%end%>
+  <div class="d-none">
+    <div id="allLat">
+      <%@members.each do |member|%>
+        <div class="lats"><%= member.lat %></div>
+      <%end%>
+    </div>
+    <div id="allLon">
+      <%@members.each do |member|%>
+        <div class="lons"><%= member.lon %></div>
+      <%end%>
+    </div>
   </div>
-  <div id="allLon">
-    <%@members.each do |member|%>
-      <div class="lons"><%= member.lon %></div>
-    <%end%>
+  <div class="input-group mt-2">
+    <select class="custom-select" id="type" aria-label="Example select with button addon">
+      <option selected>Choose...</option>
+      <option value="cafe">Coffee</option>
+      <option value="restaurant">Restaurants</option>
+      <option value="bar">Bars</option>
+      <option value="shopping_mall">Shopping</option>
+    </select>
+    <div class="input-group-append">
+      <button class="btn btn-danger" type="button" id ="calc">Locate Mid</button>
+    </div>
   </div>
   <div id="map" class="mt-2"></div>
   <div class="container">
-    <form>
-      <select id="type">
-        <option value="cafe">Coffee</option>
-        <option value="restaurant">Restaurants</option>
-        <option value="bar">Bars</option>
-        <option value="shopping_mall">Shopping</option>
-      </select>
-    </form>
     <div id="listBoard"></div>
   </div>
-  <button class="btn btn-primary" id="calc">Locate Mid!</button>
-  <%# <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> %>
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCM3MixfBEjbgbPdvlSEu8kubULJuXv9bg&libraries=places&callback=initMap"
 	    async defer></script>
 </div>
