@@ -137,7 +137,7 @@ function findPlaces() {
     var request = {
         location: {lat: midMarker.position.lat(), lng: midMarker.position.lng()},
         radius: 2000,
-        type: $("#input").val(),
+        type: $("#type").val(),
         openNow: true
     };
 
