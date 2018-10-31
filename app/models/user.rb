@@ -6,4 +6,5 @@ class User < ApplicationRecord
 
   has_one :profile
   has_many :members
+  has_many :faves
 end
