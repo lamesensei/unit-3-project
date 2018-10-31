@@ -89,6 +89,7 @@ function clearMarkers() {
 
 function markMid() {
   getAll();
+  document.getElementById('resultmodalbutton').classList.remove('invisible');
 
   midMarker = new google.maps.Marker({
     position: midPoint,
@@ -185,12 +186,11 @@ function callback(results, status) {
         doc = document.createElement('div');
 
         doc.innerHTML = `<div class="listText placeName">
-                    <ul>${placeName}
-                <div class="rating"><li>${rating}</li></div>
-                <div class="address"><li>${address}</li></div>
-                <div class="photo"><li>Photo<img src=${photo}/></li>
+                  ${placeName}
+                <div class="rating">${rating} stars</div>
+                <div class="address">${address}</div>
+                <div class="photo"><img src=${photo}/>
                 </div>
-                    </ul>
                 </div>`;
 
         $('#listBoard').append(doc);

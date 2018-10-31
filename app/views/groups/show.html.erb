@@ -64,10 +64,30 @@
       <button class="btn btn-danger" type="button" id ="calc">Locate Mid</button>
     </div>
   </div>
-  <div id="map" class="mt-2"></div>
-  <div class="container">
-    <div id="listBoard"></div>
+  <div id="map" class="w-100 mt-2"></div>
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-primary invisible m-2 mx-auto" data-toggle="modal" data-target="#resultmodal" id='resultmodalbutton'>
+    Show Recommendations
+  </button>
+  <!-- Modal -->
+  <div class="modal fade" id="resultmodal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">You should meet at...</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" id="listBoard">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
   </div>
+  <%# <div id="listBoard"></div> %>
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCM3MixfBEjbgbPdvlSEu8kubULJuXv9bg&libraries=places&callback=initMap"
 	    async defer></script>
 </div>
