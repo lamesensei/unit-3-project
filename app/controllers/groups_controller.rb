@@ -1,10 +1,5 @@
 class GroupsController < ApplicationController
   def index
-    @member = Member.new
-    # if params[:code]
-    #   @group = Group.find_by(code: params[:code])
-    #   redirect_to group_path(@group) if @group.present?
-    # end
   end
 
   def show
@@ -25,6 +20,10 @@ class GroupsController < ApplicationController
     @member.user = @user
     @member.save
     redirect_to @group
+  end
+
+  def landing
+    @member = Member.new
   end
 
   private
