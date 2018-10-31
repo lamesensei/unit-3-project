@@ -1,15 +1,44 @@
 <div class="container-fluid h-100 nobg">
-  <h1>
-    Group Code: <%=@group.code%>
+  <h1 class="title display-1">
+    <%=@group.code%>
   </h1>
-  <h1>
-    Size: <%=@group.size%>
-  </h1>
-  <ol>
-    <%@members.each do |member|%>
-      <li><%=member.name%>, Lat: <%=member.lat%>, Lon:<%=member.lon%>, Place: <%=member.place%></li>
+  <div class="input-group mb-3">
+    <%# <select id="input">
+	          <option value="">Fav1 - In Progress</option>
+	          <option value="">Fav2</option>
+	          <option value="">Fav3</option>
+	          <option value="">Fav4</option>
+	        </select> %>
+    <input class="form-control" id="person" placeholder="Hi <%=@members.last.name%>! Please enter your current location."/>
+    <div class="input-group-append">
+      <span class="btn btn-primary" id="place">Place</span>
+    </div>
+    <%= form_for :member, url: member_path(@members.last), method: :patch do |form| %>
+      <%= form.hidden_field :lat, {:id => "lat"} %>
+      <%= form.hidden_field :lon, {:id => "lon"} %>
+      <%= form.hidden_field :place, {:id => "address"} %>
+      <%= form.submit(class: "btn btn-primary", value: "Submit", id:  "confirm") %>
+    <% end %>
+  </div>
+  <div class="card-group">
+    <%@members.each_with_index do |member, index|%>
+      <div class="card">
+        <%if index == 0%>
+          <div class="card-header">Owner</div>
+        <%else%>
+          <div class="card-header">Member</div>
+        <%end%>
+        <div class="card-body">
+          <h5 class="card-title">
+            <%=member.name%>
+          </h5>
+          <p class="card-text">
+            <%=member.place%>
+          </p>
+        </div>
+      </div>
     <%end%>
-  </ol>
+  </div>
   <div id="allLat">
     <%@members.each do |member|%>
       <div class="lats"><%= member.lat %></div>
@@ -20,31 +49,7 @@
       <div class="lons"><%= member.lon %></div>
     <%end%>
   </div>
-  <div class="container-fluid">
-    <div class="row">
-      <div id='panel'>
-        <div class="d-flex justify-content-center">
-          <%# <select id="input">
-	          <option value="">Fav1 - In Progress</option>
-	          <option value="">Fav2</option>
-	          <option value="">Fav3</option>
-	          <option value="">Fav4</option>
-	        </select> %>
-          <input id="person"/>
-          <span class="btn btn-primary" id="place">Place</span>
-          <%= form_for :member, url: member_path(@members.last), method: :patch do |form| %>
-            <%= form.hidden_field :lat, {:id => "lat"} %>
-            <%= form.hidden_field :lon, {:id => "lon"} %>
-            <%= form.hidden_field :place, {:id => "address"} %>
-            <%= form.submit(class: "btn btn-primary", value: "Submit", id:  "confirm") %>
-          <% end %>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-    </div>
-  </div>
-  <div id="map"></div>
+  <div id="map" class="mt-2"></div>
   <div class="container">
     <form>
       <select id="type">
