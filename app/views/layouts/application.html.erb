@@ -1,32 +1,47 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Unit3Project</title>
+    <title>MeetWhere</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
   <body>
+    <nav class="navbar navbar-dark bg-dark navbar-expand-lg">
+      <%=link_to 'MeetWhere', groups_path, class: "navbar-brand"%>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
+        <div class="navbar-nav">
+          <% if user_signed_in? %>
+            <%if current_user.profile%>
+              <%=link_to current_user.profile.username, user_profile_path(current_user.id, current_user.profile.id), class: "nav-item nav-link"%>
+            <%else%>
+              <%=link_to 'Create Profile', new_user_profile_path(current_user.id), class: "nav-item nav-link"%>
+            <%end%>
+            <div class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Groups
+              </a>
+              <div class="dropdown-menu">
+                <%=link_to 'List My Groups', groups_path, class: "dropdown-item"%>
+                <%=link_to 'New Group', new_group_path, class: "dropdown-item"%>
+              </div>
+            </div>
+          </div>
+          <div class="navbar-nav">
+            <%= link_to'Logout', destroy_user_session_path, method: :delete, class: "nav-item nav-link" %>
+          <% else %>
+            <%= link_to'Login', new_user_session_path, class: "nav-item nav-link"  %>
+            <%= link_to'Sign Up', new_user_registration_path, class: "nav-item nav-link"  %>
+          </div>
+        <% end %>
+      </div>
+    </nav>
     <p class="notice"><%= notice %></p>
     <p class="alert"><%= alert %></p>
-    <nav>
-      <%=link_to 'Home', groups_path%>
-      <% if user_signed_in? %>
-        <strong>
-          <p><%=current_user.email%> logged in</p>
-        </strong>
-        <%if current_user.profile%>
-          <%=link_to 'Profile', user_profile_path(current_user.id, current_user.profile.id)%>
-        <%else%>
-          <%=link_to 'Profile', new_user_profile_path(current_user.id)%>
-        <%end%>
-        <%=link_to 'New Group', new_group_path%>
-        <%= link_to('Logout', destroy_user_session_path, method: :delete) %>
-      <% else %>
-        <%= link_to('Login', new_user_session_path)  %>
-      <% end %>
-    </nav>
     <%= yield %>
   </body>
 </html>
