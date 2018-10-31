@@ -14,5 +14,5 @@ Rails.application.routes.draw do
 
   resources :members
 
-  root "groups#index"
+  root "groups#landing"
 end

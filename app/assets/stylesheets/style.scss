@@ -1,13 +1,29 @@
-#map {
-  height: 70vh;
-  width: 100%;
-}
-
 html,
 body {
   height: 100%;
   margin: 0;
   padding: 0;
+  background: url(https://picsum.photos/1920/1080/?random);
+  background-position: center;
+  background-size: cover;
+}
+
+.title {
+  font-family: 'Righteous', cursive;
+}
+
+.theme {
+  font-family: 'Open Sans', sans-serif;
+}
+
+.landing {
+  background-color: rgba($color: #343a40, $alpha: 0.75) !important;
+  color: white;
+}
+
+#map {
+  height: 70vh;
+  width: 100%;
 }
 
 #panel {
