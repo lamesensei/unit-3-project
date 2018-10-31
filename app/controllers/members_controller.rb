@@ -24,7 +24,7 @@ class MembersController < ApplicationController
     @member.lon = params[:member][:lon]
     @member.place = params[:member][:place]
     @member.save
-    redirect_to root_path
+    redirect_to root
   end
 
   private
