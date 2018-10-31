@@ -1,9 +1,23 @@
-<div>
-	<%=form_with model: @member, url: members_path, local: true do |f|%>
-		<label>Name:</label>
-	  <%=f.text_field :name%>
-	  <label>Code:</label>
-	  <%=f.text_field :code%>
-		<%=f.submit%>
-	<%end%>
+<div class="jumbotron w-50 mx-auto p-4 shadow clearfix landing">
+  <h1 class="display-4 title">RUMU</h1>
+  <p class="lead">Ready Up; Meet Up. <br>
+    Find the perfect place to meet: <span class="title">all the time, any time.</span>
+  </p>
+  <hr>
+  <p class>
+    Enter your name and group code to start.
+  </p>
+  <%=form_with model: @member, url: members_path, local: true, class: "" do |f|%>
+    <div class="form-group d-md-flex justify-content-between">
+      <%=f.text_field :name, class: "form-control m-1", placeholder: "Name"%>
+      <%=f.text_field :code, class: "form-control m-1", placeholder: "Group Code"%>
+      <button type="submit" class="btn btn-sm btn-danger font-weight-bold m-1">GO</button>
+    </div>
+  <%end%>
+  <hr>
+  <% if user_signed_in? %>
+    <%=link_to "No group code? Create your own here.", new_group_path%>
+  <%else%>
+    <%=link_to "No group code? Sign up and create your own here.", new_user_registration_path%>
+  <%end%>
 </div>
