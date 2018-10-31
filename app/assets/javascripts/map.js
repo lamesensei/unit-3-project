@@ -28,7 +28,7 @@ function initAutocomplete() {
       var place = autocomplete.getPlace();
       var lat = place.geometry.location.lat();
       var lng = place.geometry.location.lng();
-      var address = document.getElementById("person");
+      var address = document.getElementById("person").value;
       document.getElementById("confirm").style.display = "table";
 
       // Inputting values into hidden field
