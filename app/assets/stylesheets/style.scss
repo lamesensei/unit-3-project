@@ -16,9 +16,11 @@ body {
   font-family: 'Open Sans', sans-serif;
 }
 
-.landing {
+.jumboform {
   background-color: rgba($color: #343a40, $alpha: 0.75) !important;
   color: white;
+  min-width: 300px;
+  margin-top: 17vh;
 }
 
 #map {
