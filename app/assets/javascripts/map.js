@@ -1,6 +1,9 @@
 console.log('linked!');
 
+const API_KEY = 'AIzaSyCM3MixfBEjbgbPdvlSEu8kubULJuXv9bg';
+
 mark = [];
+routes = [];
 
 // Initiates a map
 function initMap() {
@@ -8,12 +11,19 @@ function initMap() {
     zoom: 11,
     center: { lat: 1.35721, lng: 103.8198 }
   });
+  midMarker = null;
+  infowindows = new google.maps.InfoWindow();
+  directions = new google.maps.DirectionsService();
+  renderer = new google.maps.DirectionsRenderer({
+    suppressPolylines: true,
+    infoWindow: infowindows,
+    suppressMarkers: true
+  });
 
   initAutocomplete();
 
   placeAllMarks();
 
-  $('#place').click(mark);
   $("#calc").click(markMid);
   $("#currentLocation").click(getCurrentLocation);
 }
@@ -94,6 +104,9 @@ function clearMarkers() {
 }
 
 function markMid() {
+  if ( midMarker != null ) {
+    midMarker.setMap(null)
+  }
   getAll();
   document.getElementById('resultmodalbutton').classList.remove('invisible');
 
@@ -106,7 +119,7 @@ function markMid() {
   map.setZoom(14);
   map.panTo(midMarker.position);
   findPlaces();
-
+  showRoutes();
   // For reference only can remove later
   $('#dragLat').html(midMarker.position.lat());
   $('#dragLong').html(midMarker.position.lng());
@@ -120,6 +133,8 @@ function markMid() {
   google.maps.event.addListener(midMarker, 'dragend', function(evt) {
     clearList();
     findPlaces();
+    showRoutes();
+    // map.panTo(evt.latLng);
   });
 }
 
@@ -138,14 +153,17 @@ function createMarker(place) {
 
 function findPlaces() {
   clearMarkers();
+  clearRoutes();
 
+  routes = [];
   placesArr = [];
+
+  getAll();
 
   var request = {
     location: { lat: midMarker.position.lat(), lng: midMarker.position.lng() },
     radius: 2000,
     type: $('#type').val(),
-    openNow: true
   };
 
   // Info pop up window
@@ -225,7 +243,7 @@ function fillCur() {
 }
 
 function reverseGeocode() {
-  $.getJSON(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${curLat},${curLng}&key=AIzaSyCM3MixfBEjbgbPdvlSEu8kubULJuXv9bg`, function( data ) {
+  $.getJSON(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${curLat},${curLng}&key=${API_KEY}`, function( data ) {
     address = data.results[0].formatted_address;
     fillCur();
     document.getElementById('magicbutton').classList = 'btn btn-success m-0';
@@ -281,10 +299,91 @@ function placeAllMarks() {
   }
 }
 
+function drawDirections(pointA, pointB, name) {
 
+  // directionsDisplay.setMap(map);
 
+  let start = pointA;
+  let end = pointB;
+  let mem = name;
 
+  let request = {
+    origin: pointA,
+    destination: pointB,
+    travelMode: 'DRIVING'
+  };
 
+  directions.route(request, function(response, status) {
+    if ( status == google.maps.DirectionsStatus.OK ) {
+      renderer.setDirections(response);
+      renderer.setMap(map);
+      renderDirections(response, pointA, pointB, name);
+    } else {
+      console.log('Could not render!')
+    }
+  })
+}
+
+function clearRoutes() {
+  for ( let i = 0; i < routes.length; i++ ) {
+    routes[i].setMap(null);
+  }
+}
+
+// Calculating lat/long starting and end point for drawing of Polylines
+function showRoutes() {
+    for (let i = 0; i < document.getElementsByClassName('lats').length; i++) {
+    if (document.getElementsByClassName('lats')[i].textContent != "") {
+      let pointA = {lat: parseFloat(document.getElementsByClassName("lats")[i].textContent), lng: parseFloat(document.getElementsByClassName("lons")[i].textContent)};
+      let pointB = { lat: midMarker.position.lat(), lng: midMarker.position.lng() };
+      let name = document.getElementsByClassName("allNames")[i].textContent;
+      drawDirections(pointA, pointB, name);
+    }
+  }
+}
+
+// Polyline color + sizing options
+var polylineOptions = {
+  strokeColor: '#C83939',
+  strokeOpacity: 1,
+  strokeWeight: 4
+};
+
+// Drawing the Polylines
+function renderDirections(response, pointA, pointB, name) {
+  let legs = response.routes[0].legs;
+  for ( let i = 0; i < legs.length; i++ ) {
+    let steps = legs[i].steps;
+
+    for ( let j = 0; j < steps.length; j++ ) {
+      let nextSegment = steps[j].path;
+      let stepPolyline = new google.maps.Polyline(polylineOptions);
+      for ( let k = 0; k < nextSegment.length; k++ ) {
+        stepPolyline.getPath().push(nextSegment[k]);
+      }
+      routes.push(stepPolyline);
+      stepPolyline.setMap(map);
+      google.maps.event.addListener(stepPolyline, 'click', function(evt) {
+        let request = {
+          origins: [pointA],
+          destinations: [pointB],
+          travelMode: 'DRIVING'
+        }
+
+        let service = new google.maps.DistanceMatrixService();
+        service.getDistanceMatrix(request, function(response, status) {
+          if ( status == 'OK' ) {
+            infowindows.setContent(`${name}: Distance: ${response.rows[0].elements[0].distance.text} \n Travel time: ${response.rows[0].elements[0].duration.text}`)
+            infowindows.setPosition(evt.latLng);
+            infowindows.open(map);
+          } else {
+            console.log('could not get distance')
+          }
+        })
+      })
+    }
+  }
+}
 
 
 
