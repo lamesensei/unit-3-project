@@ -11,8 +11,27 @@ function initMap() {
 
   initAutocomplete();
 
-  $('#place').click(place);
-  document.getElementById('calc').addEventListener('click', markMid);
+  $('#place').click(mark);
+  $("#calc").click(markMid);
+  $("#currentLocation").click(getCurrentLocation);
+}
+
+function markPlace() {
+  let myLatLng = { lat: parseFloat($('#lat').val()), lng: parseFloat($('#lon').val()) };
+
+  // To avoid placing more than 1 marker
+  if (mark[0] != undefined) {
+    mark[0].setMap(null);
+  }
+
+  mark = [];
+  marker = new google.maps.Marker({
+    position: myLatLng,
+    map: map
+  });
+  map.setZoom(14);
+  map.panTo(marker.position);
+  mark.push(marker);
 }
 
 // Inits the autocomplete functions
@@ -36,25 +55,8 @@ function initAutocomplete() {
     document.getElementById('lat').value = lat;
     document.getElementById('lon').value = lng;
     document.getElementById('address').value = address;
+    markPlace();
   });
-}
-
-function place() {
-  let myLatLng = { lat: parseFloat($('#lat').val()), lng: parseFloat($('#lon').val()) };
-
-  // To avoid placing more than 1 marker
-  if (mark[0] != undefined) {
-    mark[0].setMap(null);
-  }
-
-  mark = [];
-  marker = new google.maps.Marker({
-    position: myLatLng,
-    map: map
-  });
-  map.setZoom(14);
-  map.panTo(marker.position);
-  mark.push(marker);
 }
 
 // Function to get all hidden values of lats + longs
@@ -205,3 +207,63 @@ function clearList() {
     clear.removeChild(clear.firstChild);
   }
 }
+
+function fillCur() {
+  // Inputting values into hidden fields when use current location button is pressed
+  $("#lat").val(curLat);
+  $("#lon").val(curLng);
+  $("#address").val(address);
+  $("#person").val(address);
+  $("#lat").val(curLat);
+  $("#lon").val(curLng);
+  markPlace();
+  $("#magicbutton")
+}
+
+function reverseGeocode() {
+  $.getJSON(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${curLat},${curLng}&key=AIzaSyCM3MixfBEjbgbPdvlSEu8kubULJuXv9bg`, function( data ) {
+    address = data.results[0].formatted_address;
+    fillCur();
+    document.getElementById('magicbutton').classList = 'btn btn-success m-0';
+    document.getElementById('confirm').disabled = false;
+  })
+}
+
+function getCurrentLocation() {
+  if ( navigator.geolocation ) {
+    navigator.geolocation.getCurrentPosition(function(position){
+       curLat = position.coords.latitude;
+       curLng = position.coords.longitude;
+       console.log('1')
+       console.log(curLat)
+       reverseGeocode();
+    });
+  } else {
+    // Change button to say unabel to find location and removing the event listener
+    $("#currentLocation").text() = "Unable to find location!";
+    $("#currentLocation").unbind("click");
+    $("#currentLocation").attr("class", "btn btn-danger");
+  }
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
