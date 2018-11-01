@@ -3,7 +3,7 @@
   <p class="lead">Enter a code for sharing and set the maximum group size</p>
   <hr>
   <div class="form-group">
-    <%=form_with model: @group, local: true do |f|%>
+    <%=form_with model: @group, local: true, html: { autocomplete: "off" } do |f|%>
       <%=f.label :code%>
       <%=f.text_field :code, class: "form-control"%>
       <%=f.label :size%>
