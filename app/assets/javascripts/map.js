@@ -11,6 +11,8 @@ function initMap() {
 
   initAutocomplete();
 
+  placeAllMarks();
+
   $('#place').click(mark);
   $("#calc").click(markMid);
   $("#currentLocation").click(getCurrentLocation);
@@ -63,22 +65,24 @@ function initAutocomplete() {
 function getAll() {
   let totalLat = 0;
   let totalLon = 0;
+  let length = 0;
 
   for (let i = 0; i < document.getElementsByClassName('lats').length; i++) {
-    if (document.getElementsByClassName('lats')[i].textContent != null) {
+    if (document.getElementsByClassName('lats')[i].textContent != "") {
       totalLat = totalLat + parseFloat(document.getElementsByClassName('lats')[i].textContent);
+      length = length + 1;
     }
   }
 
   for (let i = 0; i < document.getElementsByClassName('lons').length; i++) {
-    if (document.getElementsByClassName('lats')[i].textContent != null) {
+    if (document.getElementsByClassName('lats')[i].textContent != "") {
       totalLon = totalLon + parseFloat(document.getElementsByClassName('lons')[i].textContent);
     }
   }
 
-  let aveLat = totalLat / parseFloat(document.getElementsByClassName('lats').length);
+  let aveLat = totalLat / parseFloat(length);
 
-  let aveLon = totalLon / parseFloat(document.getElementsByClassName('lons').length);
+  let aveLon = totalLon / parseFloat(length);
 
   midPoint = { lat: parseFloat(aveLat), lng: parseFloat(aveLon) };
 }
@@ -244,10 +248,37 @@ function getCurrentLocation() {
     $("#currentLocation").unbind("click");
     $("#currentLocation").attr("class", "btn btn-danger");
   }
+}
 
+function markUsers(latLng, name) {
+  let contentString = `<div>${name}</div>`;
 
+  let infowindow = new google.maps.InfoWindow({
+    content: contentString
+  })
 
+  let markUser = new google.maps.Marker({
+    map: map,
+    position: latLng,
+  })
 
+  markUser.addListener('click', function() {
+    infowindow.open(map, markUser);
+  })
+}
+
+function placeAllMarks() {
+
+  for ( let i = 0; i < document.getElementsByClassName("allNames").length; i++ ) {
+    if ( document.getElementsByClassName("lats")[i] != null ) {
+      let tempName = document.getElementsByClassName("allNames")[i].textContent;
+      let tempLat = parseFloat(document.getElementsByClassName("lats")[i].textContent);
+      let tempLng = parseFloat(document.getElementsByClassName("lons")[i].textContent);
+      let tempLatLng = {lat: tempLat, lng: tempLng};
+
+      markUsers(tempLatLng, tempName);
+    }
+  }
 }
 
 
