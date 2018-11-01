@@ -1,5 +1,7 @@
 class GroupsController < ApplicationController
   def index
+    @user = User.find(current_user.id)
+    @membership = @user.members
   end
 
   def show
