@@ -190,10 +190,6 @@ function callback(results, status) {
       places = placesArr[i];
       createMarker(places);
 
-
-console.log(places);
-
-
       // Name
       let placeName = places.name;
 
@@ -212,8 +208,6 @@ console.log(places);
 
         // Creating the list (to be styled later)
         doc = document.createElement('div');
-
-// here
         doc.innerHTML = `<div class="card">
         <div class="listText placeName h3 card-header">
             ${placeName}
@@ -222,11 +216,22 @@ console.log(places);
             <img class="card-img-top" src=${photo} style="height: 15rem;"/>
         </div>
             <div class="card-body">
-                <div class="rating h4">${rating} stars</div>
+                <div class="stars-outer">
+                    <div class="stars-inner">
+                    </div>
+                </div>
+                <div class="rating h6">${rating} stars</div>
                     <div class="address">Address : ${address}</div>
                     </div>
                 </div>
             </div>`;
+            // Implementing Star Rating To See Stars Visually
+            if (rating !== null || rating !== undefined) {
+            const totalStars = 5
+            const starPercentage = (rating/totalStars) * 100;
+            const starPercentageExact = `${(starPercentage / 10) *10}%`;
+            doc.querySelector('.stars-inner').style.width = starPercentageExact;
+        }
 
         $('#listBoard').append(doc);
       }
