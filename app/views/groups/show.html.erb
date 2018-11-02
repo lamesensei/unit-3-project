@@ -41,18 +41,7 @@
       </div>
     <%end%>
   </div>
-  <div class="d-none">
-    <div id="allLat">
-      <%@members.each do |member|%>
-        <div class="lats"><%= member.lat %></div>
-      <%end%>
-    </div>
-    <div id="allLon">
-      <%@members.each do |member|%>
-        <div class="lons"><%= member.lon %></div>
-      <%end%>
-    </div>
-  </div>
+
   <div class="input-group mt-2">
     <select class="custom-select" id="type" aria-label="Example select with button addon">
       <option selected>Choose...</option>
@@ -86,6 +75,23 @@
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         </div>
       </div>
+    </div>
+  </div>
+  <div class="d-none">
+  	<div id="allName">
+  		<%@members.each do |member|%>
+	  		<div class="allNames"><%= member.name %></div>
+  		<%end%>
+  	</div>
+    <div id="allLat">
+      <%@members.each do |member|%>
+        <div class="lats"><%= member.lat %></div>
+      <%end%>
+    </div>
+    <div id="allLon">
+      <%@members.each do |member|%>
+        <div class="lons"><%= member.lon %></div>
+      <%end%>
     </div>
   </div>
   <%# <div id="listBoard"></div> %>
