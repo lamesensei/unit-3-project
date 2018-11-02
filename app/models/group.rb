@@ -8,4 +8,8 @@ class Group < ApplicationRecord
   def is_not_full?
     self.members.size != self.size
   end
+
+  def owner
+    self.members.first.user
+  end
 end

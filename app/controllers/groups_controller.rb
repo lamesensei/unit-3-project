@@ -30,15 +30,26 @@ class GroupsController < ApplicationController
   def crossroads
     @group = Group.find_by(code: params[:code])
     if user_signed_in?
-      return redirect_to @group if @group.members.first.user == User.find(current_user.id)
-    elsif user_signed_in? && @group.is_not_full?
-      @user = User.find(current_user.id)
-      @member = Member.new(name: current_user.profile.username)
-      @member.group = @group
-      @member.user = @user
-      @member.save
-    else @group.is_not_full?
-      @member = Member.new     end
+      if @group.owner == User.find(current_user.id)
+        return redirect_to @group
+      elsif User.find(current_user.id).groups.include? @group
+        return redirect_to @group
+      elsif @group.is_not_full?
+        @user = User.find(current_user.id)
+        @member = Member.new(name: current_user.profile.username)
+        @member.group = @group
+        @member.user = @user
+        @member.save
+        redirect_to @group
+      end
+    elsif cookies.signed[:current_member]
+      member_id = cookies.signed[:current_member]
+      if Member.find(member_id).group == @group
+        return redirect_to @group
+      end
+    else
+      @member = Member.new
+    end
   end
 
   private
