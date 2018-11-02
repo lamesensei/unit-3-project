@@ -1,12 +1,13 @@
 <div class="jumbotron w-50 mx-auto p-4 shadow jumboform">
   <h2 class="title">Profile</h2>
+  <p class="lead">Let us know more about you!</p>
   <hr>
   <div class="form-group">
     <%=form_with model: @profile, url: user_profiles_path, local: true do |f|%>
-      <%=f.label :username%>
+      <%=f.label 'Name'%>
       <%=f.text_field :username, class:"form-control"%>
-      <%=f.label :fullname%>
-      <%=f.text_field :fullname, class:"form-control"%>
+      <%#=f.label 'Full Name'%>
+      <%#=f.text_field :fullname, class:"form-control"%>
       <%=f.label :age%>
       <%=f.number_field :age, class:"form-control"%>
       <button type="submit" class="btn btn-sm btn-danger font-weight-bold mt-3">Submit</button>
