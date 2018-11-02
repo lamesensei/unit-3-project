@@ -30,15 +30,15 @@ class GroupsController < ApplicationController
   def crossroads
     @group = Group.find_by(code: params[:code])
     if user_signed_in?
+      return redirect_to @group if @group.members.first.user == User.find(current_user.id)
+    elsif user_signed_in? && @group.is_not_full?
       @user = User.find(current_user.id)
       @member = Member.new(name: current_user.profile.username)
       @member.group = @group
       @member.user = @user
       @member.save
-      redirect_to @group
-    else
-      @member = Member.new
-    end
+    else @group.is_not_full?
+      @member = Member.new     end
   end
 
   private

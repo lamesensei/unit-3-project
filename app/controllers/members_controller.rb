@@ -10,11 +10,12 @@ class MembersController < ApplicationController
   end
 
   def create
-    @member = Member.new(name: params[:member][:name])
     @group = Group.find_by(code: params[:group_code])
+    @member = Member.new(name: params[:member][:name])
     @member.group = @group
     @member.user = User.find(current_user.id) if current_user.present?
     @member.save
+    cookies.signed[:current_member] = @member.id
     redirect_to @group
   end
 

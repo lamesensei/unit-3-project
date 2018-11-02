@@ -1,19 +1,17 @@
 <div class="jumbotron w-50 mx-auto p-4 shadow jumboform">
-  <h1 class="display-4 title">Hi!</h1>
-  <hr>
-  <p>
-    Please enter your name.
-  </p>
-  <%=form_with model: @member, url: group_members_path(@group), local: true do |f| %>
-    <div class="form-group d-md-flex justify-content-between">
-      <%=f.text_field :name, class: "form-control m-1", placeholder: "Name"%>
-      <button type="submit" class="btn btn-sm btn-danger font-weight-bold m-1">GO</button>
-    </div>
-  <%end%>
-  <hr>
-  <% if user_signed_in? %>
-    <%=link_to "No group code? Create your own here.", new_group_path%>
+  <%if @group.is_not_full?%>
+    <hr>
+    <p>
+      Please enter your name.
+    </p>
+    <%=form_with model: @member, url: group_members_path(@group), local: true do |f| %>
+      <div class="form-group d-md-flex justify-content-between">
+        <%=f.text_field :name, class: "form-control m-1", placeholder: "Name"%>
+        <button type="submit" class="btn btn-sm btn-danger font-weight-bold m-1">GO</button>
+      </div>
+    <%end%>
   <%else%>
-    <%=link_to "No group code? Sign up and create your own here.", new_user_registration_path%>
+    <h1 class="display-4 title">Sorry!</h1>
+    <%=link_to "Group is full! Click here to continue.", root_path%>
   <%end%>
 </div>
