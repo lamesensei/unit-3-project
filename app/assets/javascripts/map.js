@@ -316,7 +316,7 @@ function drawDirections(pointA, pointB, name) {
   directions.route(request, function(response, status) {
     if ( status == google.maps.DirectionsStatus.OK ) {
       renderer.setDirections(response);
-      renderer.setMap(map);
+      // renderer.setMap(map);
       renderDirections(response, pointA, pointB, name);
     } else {
       console.log('Could not render!')
@@ -363,6 +363,8 @@ function renderDirections(response, pointA, pointB, name) {
       }
       routes.push(stepPolyline);
       stepPolyline.setMap(map);
+      map.setZoom(14);
+      map.panTo(midMarker.position);
       google.maps.event.addListener(stepPolyline, 'click', function(evt) {
         let request = {
           origins: [pointA],
