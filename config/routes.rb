@@ -12,6 +12,8 @@ Rails.application.routes.draw do
     resources :members
   end
 
+  get "/crossroads", to: "groups#crossroads", as: "crossroads"
+
   resources :members
 
   root "groups#landing"
