@@ -279,17 +279,36 @@ function callback(results, status) {
 
 				// Address
 				let address = places.vicinity;
+				let addressArray=address.split(" ")
+        let addressString=addressArray.join("+")
 
 				// Creating the list (to be styled later)
 				doc = document.createElement('div');
+				        doc.innerHTML = `<div class="card">
+				        <div class="listText placeName h3 card-header">
+				            ${placeName}
+				        </div>
+				        <div>
+				            <img class="card-img-top" src=${photo} style="height: 15rem;"/>
+				        </div>
+				            <div class="card-body">
+				                <div class="stars-outer">
+				                    <div class="stars-inner">
+				                    </div>
+				                </div>
+				                    <div class="address h6">Address : <a href="https://www.google.com/maps/place/${addressString}">${address}</a>
+				                    </div>
+				                </div>
+				            </div>`;
+				            // Implementing Star Rating To See Stars Visually
+				            console.log(addressString)
+				            if (rating !== null || rating !== undefined) {
+				            let totalStars = 5
+				            let starPercentage = (rating/totalStars) * 100;
+				            let starPercentageExact = `${(starPercentage / 10) *10}%`;
+				            doc.querySelector('.stars-inner').style.width = starPercentageExact;
+				        }
 
-				doc.innerHTML = `<div class="listText placeName">
-									${placeName}
-								<div class="rating">${rating} stars</div>
-								<div class="address">${address}</div>
-								<div class="photo"><img src=${photo}/>
-								</div>
-								</div>`;
 
 				$('#listBoard').append(doc);
 			}
@@ -548,14 +567,3 @@ function avatarChooser() {
 	$("#icon").val(parseInt(num))
 	setUp()
 }
-
-
-
-
-
-
-
-
-
-
-
