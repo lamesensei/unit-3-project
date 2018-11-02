@@ -1,1 +1,22 @@
-<%=@profile.username%>
+<div class="jumbotron w-50 mx-auto p-4 shadow jumboform">
+  <h2 class="title">Profile</h2>
+	<h3>Welcome <%=@profile.username%></h3>
+	<h5>You can view and edit your profile details here.</h5>
+	<%= form_with model: @profile, local: true do |f| %>
+		  <div class="field">
+		<%= f.label :username %>
+		<%= f.text_field :username %>
+		</div>
+		  <div class="field">
+		<%= f.label :fullname %>
+		<%= f.text_field :fullname %>
+		</div>
+		  <div class="field">
+		<%= f.label :age %>
+		<%= f.text_field :age %>
+		</div>
+		<div class="field">
+	<%= f.submit "Save Changes", class:"btn btn-primary" %>
+		</div>
+		<% end %>
+  </div>
