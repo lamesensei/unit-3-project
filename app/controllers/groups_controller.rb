@@ -17,7 +17,7 @@ class GroupsController < ApplicationController
     @group = Group.new(group_params)
     @group.save
     @user = User.find(current_user.id)
-    @member = Member.new(name: current_user.profile.fullname)
+    @member = Member.new(name: current_user.profile.username)
     @member.group = @group
     @member.user = @user
     @member.save
@@ -25,7 +25,20 @@ class GroupsController < ApplicationController
   end
 
   def landing
-    @member = Member.new
+  end
+
+  def crossroads
+    @group = Group.find_by(code: params[:code])
+    if user_signed_in?
+      @user = User.find(current_user.id)
+      @member = Member.new(name: current_user.profile.username)
+      @member.group = @group
+      @member.user = @user
+      @member.save
+      redirect_to @group
+    else
+      @member = Member.new
+    end
   end
 
   private

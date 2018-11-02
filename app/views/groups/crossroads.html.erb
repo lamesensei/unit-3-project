@@ -1,15 +1,12 @@
 <div class="jumbotron w-50 mx-auto p-4 shadow jumboform">
-  <h1 class="display-4 title">RUMU</h1>
-  <p class="lead">Ready Up; Meet Up. <br>
-    Find the perfect place to meet: <span class="title">all the time, any time.</span>
-  </p>
+  <h1 class="display-4 title">Hi!</h1>
   <hr>
   <p>
-    Enter group code to start.
+    Please enter your name.
   </p>
-  <%=form_with url: group_crossroads_path, method: :get, local: true do |f| %>
+  <%=form_with model: @member, url: group_members_path(@group), local: true do |f| %>
     <div class="form-group d-md-flex justify-content-between">
-      <%=f.text_field :code, class: "form-control m-1", placeholder: "Group Code"%>
+      <%=f.text_field :name, class: "form-control m-1", placeholder: "Name"%>
       <button type="submit" class="btn btn-sm btn-danger font-weight-bold m-1">GO</button>
     </div>
   <%end%>

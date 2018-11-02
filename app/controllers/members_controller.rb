@@ -11,7 +11,7 @@ class MembersController < ApplicationController
 
   def create
     @member = Member.new(name: params[:member][:name])
-    @group = Group.find_by(code: params[:member][:code])
+    @group = Group.find_by(code: params[:group_code])
     @member.group = @group
     @member.user = User.find(current_user.id) if current_user.present?
     @member.save
