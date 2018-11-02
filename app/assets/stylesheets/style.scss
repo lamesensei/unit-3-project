@@ -33,7 +33,24 @@ body {
   width: 100%;
 }
 
-.stars-outer {
+.avatars {
+	background-color: transparent;
+	border-color: transparent;
+	padding: 5px;
+}
+
+ul .list-unstyled {
+	padding: 0px;
+}
+
+ul .dropdown-menu {
+  padding: 4px 7px 3px 16px;
+}
+
+ul .dropdown-menu img:hover {
+	background-color: #0F7FFEFF;
+
+  .stars-outer {
   display: inline-block;
   position: relative;
   font-family: FontAwesome;

@@ -20,6 +20,7 @@
     <%= form.hidden_field :lat, {:id => "lat"} %>
     <%= form.hidden_field :lon, {:id => "lon"} %>
     <%= form.hidden_field :place, {:id => "address"} %>
+    <%= form.hidden_field :icon, {:id => "icon"} %>
     <%= form.submit(class: "d-none", value: "Submit", id: "confirm", disabled: true) %>
   <% end %>
   <div class="card-group mt-2">
@@ -34,6 +35,8 @@
           <h5 class="card-title">
             <%=member.name%>
           </h5>
+          	<span class="iconNum d-none"><%=member.icon%></span>
+          	<div class="iconSelector"><%=image_tag image_url('aquaman.png'), {:class => 'memIcon d-none'}%></div>
           <p class="card-text">
             <%=member.place%>
           </p>
@@ -42,7 +45,7 @@
     <%end%>
   </div>
 
-  <div class="input-group mt-2">
+  <div class="input-group mt-2" id="midFinder">
     <select class="custom-select" id="type" aria-label="Example select with button addon">
       <option selected>Choose...</option>
       <option value="cafe">Coffee</option>
@@ -92,6 +95,11 @@
       <%@members.each do |member|%>
         <div class="lons"><%= member.lon %></div>
       <%end%>
+    </div>
+    <div id="allSel">
+    	<%@members.each do |member|%>
+    		<div class="allSels"><%= member.icon %></div>
+    	<%end%>
     </div>
   </div>
   <%# <div id="listBoard"></div> %>
