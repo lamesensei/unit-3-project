@@ -49,4 +49,28 @@ ul .dropdown-menu {
 
 ul .dropdown-menu img:hover {
 	background-color: #0F7FFEFF;
+
+  .stars-outer {
+  display: inline-block;
+  position: relative;
+  font-family: FontAwesome;
+}
+
+.stars-outer::before {
+  content: "\f006 \f006 \f006 \f006 \f006";
+	color: #ff00bf
+}
+
+.stars-inner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 0;
+}
+
+.stars-inner::before {
+  content: "\f005 \f005 \f005 \f005 \f005";
+  color: #00ff9c;
 }
