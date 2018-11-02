@@ -190,6 +190,10 @@ function callback(results, status) {
       places = placesArr[i];
       createMarker(places);
 
+
+console.log(places);
+
+
       // Name
       let placeName = places.name;
 
@@ -198,7 +202,7 @@ function callback(results, status) {
         let photo = 'no-image.png';
       } else {
         // Photo URL
-        let photo = places.photos[0].getUrl({ maxWidth: 100, maxHeight: 100 });
+        let photo = places.photos[0].getUrl({ maxWidth: 200, maxHeight: 200 });
 
         // Rating (out of 5)
         let rating = places.rating;
@@ -209,13 +213,20 @@ function callback(results, status) {
         // Creating the list (to be styled later)
         doc = document.createElement('div');
 
-        doc.innerHTML = `<div class="listText placeName">
-                  ${placeName}
-                <div class="rating">${rating} stars</div>
-                <div class="address">${address}</div>
-                <div class="photo"><img src=${photo}/>
+// here
+        doc.innerHTML = `<div class="card">
+        <div class="listText placeName h3 card-header">
+            ${placeName}
+        </div>
+        <div>
+            <img class="card-img-top" src=${photo} style="height: 15rem;"/>
+        </div>
+            <div class="card-body">
+                <div class="rating h4">${rating} stars</div>
+                    <div class="address">Address : ${address}</div>
+                    </div>
                 </div>
-                </div>`;
+            </div>`;
 
         $('#listBoard').append(doc);
       }
@@ -384,16 +395,3 @@ function renderDirections(response, pointA, pointB, name) {
     }
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
