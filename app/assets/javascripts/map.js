@@ -202,10 +202,11 @@ function callback(results, status) {
 
         // Rating (out of 5)
         let rating = places.rating;
-
+console.log(places)
         // Address
         let address = places.vicinity;
-
+        let addressArray=address.split(" ")
+        let addressString=addressArray.join("+")
         // Creating the list (to be styled later)
         doc = document.createElement('div');
         doc.innerHTML = `<div class="card">
@@ -220,12 +221,12 @@ function callback(results, status) {
                     <div class="stars-inner">
                     </div>
                 </div>
-                <div class="rating h6">${rating} stars</div>
-                    <div class="address">Address : ${address}</div>
+                    <div class="address h6">Address : <a href="https://www.google.com/maps/place/${addressString}">${address}</a>
                     </div>
                 </div>
             </div>`;
             // Implementing Star Rating To See Stars Visually
+            console.log(addressString)
             if (rating !== null || rating !== undefined) {
             const totalStars = 5
             const starPercentage = (rating/totalStars) * 100;
