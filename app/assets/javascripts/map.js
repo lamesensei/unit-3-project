@@ -202,7 +202,6 @@ function callback(results, status) {
 
         // Rating (out of 5)
         let rating = places.rating;
-console.log(places)
         // Address
         let address = places.vicinity;
         let addressArray=address.split(" ")
@@ -228,9 +227,9 @@ console.log(places)
             // Implementing Star Rating To See Stars Visually
             console.log(addressString)
             if (rating !== null || rating !== undefined) {
-            const totalStars = 5
-            const starPercentage = (rating/totalStars) * 100;
-            const starPercentageExact = `${(starPercentage / 10) *10}%`;
+            let totalStars = 5
+            let starPercentage = (rating/totalStars) * 100;
+            let starPercentageExact = `${(starPercentage / 10) *10}%`;
             doc.querySelector('.stars-inner').style.width = starPercentageExact;
         }
 
