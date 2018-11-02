@@ -23,6 +23,7 @@ class MembersController < ApplicationController
     @member.lat = params[:member][:lat]
     @member.lon = params[:member][:lon]
     @member.place = params[:member][:place]
+    @member.icon = params[:member][:icon]
     @member.save
     redirect_to @member.group
   end

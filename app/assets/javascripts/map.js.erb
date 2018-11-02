@@ -1,0 +1,561 @@
+console.log('linked!');
+
+const API_KEY = 'AIzaSyCM3MixfBEjbgbPdvlSEu8kubULJuXv9bg';
+
+const ICONS = ["<%= asset_path('aquaman.png') %>",
+            "<%= asset_path('batman.png') %>",
+            "<%= asset_path('captain-america.png') %>",
+            "<%= asset_path('catwoman.png') %>",
+            "<%= asset_path('cyclops.png') %>",
+            "<%= asset_path('deadpool.png') %>",
+            "<%= asset_path('green-arrow.png') %>",
+            "<%= asset_path('green-lantern.png') %>",
+            "<%= asset_path('groot.png') %>",
+            "<%= asset_path('harley-quinn.png') %>",
+            "<%= asset_path('hawkeye.png') %>",
+            "<%= asset_path('hulk.png') %>",
+            "<%= asset_path('iron-man.png') %>",
+            "<%= asset_path('jessica-jones.png') %>",
+            "<%= asset_path('joker.png') %>",
+            "<%= asset_path('luke-cage.png') %>",
+            "<%= asset_path('mystique.png') %>",
+            "<%= asset_path('nightwing.png') %>",
+            "<%= asset_path('rogue.png') %>",
+            "<%= asset_path('spider-man.png') %>",
+            "<%= asset_path('storm.png') %>",
+            "<%= asset_path('superman.png') %>",
+            "<%= asset_path('thor.png') %>",
+            "<%= asset_path('wolverine.png') %>",
+            "<%= asset_path('wonder-woman.png') %>",
+            "<%= asset_path('places.png') %>",
+            "<%= asset_path('mid.png') %>",
+            "<%= asset_path('default.png') %>"
+            ];
+
+mark = [];
+routes = [];
+
+// Initiates a map
+function initMap() {
+	map = new google.maps.Map(document.getElementById('map'), {
+		zoom: 11,
+		center: { lat: 1.35721, lng: 103.8198 }
+	});
+	midMarker = null;
+	infowindows = new google.maps.InfoWindow();
+	directions = new google.maps.DirectionsService();
+	renderer = new google.maps.DirectionsRenderer({
+		suppressPolylines: true,
+		infoWindow: infowindows,
+		suppressMarkers: true
+	});
+
+	initAutocomplete();
+
+	placeAllMarks();
+
+	avatarChooser();
+
+	setUp();
+
+	$("#calc").click(markMid);
+	$("#currentLocation").click(getCurrentLocation);
+
+	// Removing locate mid if there's no locations
+	let length1 = 0;
+	for (let i = 0; i < document.getElementsByClassName('lats').length; i++) {
+		if (document.getElementsByClassName('lats')[i].textContent != "") {
+			length1 = length1 + 1;
+		}
+	}
+	if ( length1 < 2 ) {
+		$("#midFinder").attr("hidden", true)
+	}
+}
+
+function markPlace() {
+	let myLatLng = { lat: parseFloat($('#lat').val()), lng: parseFloat($('#lon').val()) };
+
+	// To avoid placing more than 1 marker
+	if (mark[0] != undefined) {
+		mark[0].setMap(null);
+	}
+
+	mark = [];
+
+	let avatarNum = $("#icon").val();
+
+	if ( avatarNum != "" ) {
+			ava = {
+			url: ICONS[avatarNum],
+			scaledSize: new google.maps.Size(35,35)
+		}
+	} else {
+			ava = {
+			url: ICONS[27],
+			scaledSize: new google.maps.Size(35,35)
+		}
+	}
+
+	marker = new google.maps.Marker({
+		position: myLatLng,
+		map: map,
+		icon: ava
+	});
+	map.setZoom(14);
+	map.panTo(marker.position);
+	mark.push(marker);
+}
+
+// Inits the autocomplete functions
+function initAutocomplete() {
+	var input = document.getElementById('person');
+	var options = {
+		componentRestrictions: { country: 'sg' }
+	};
+
+	var autocomplete = new google.maps.places.Autocomplete(input, options);
+
+	google.maps.event.addListener(autocomplete, 'place_changed', function() {
+		var place = autocomplete.getPlace();
+		var lat = place.geometry.location.lat();
+		var lng = place.geometry.location.lng();
+		var address = document.getElementById('person').value;
+		document.getElementById('magicbutton').classList = 'btn btn-success m-0';
+		document.getElementById('confirm').disabled = false;
+
+		// Inputting values into hidden field
+		document.getElementById('lat').value = lat;
+		document.getElementById('lon').value = lng;
+		document.getElementById('address').value = address;
+		markPlace();
+	});
+}
+
+// Function to get all hidden values of lats + longs
+function getAll() {
+	let totalLat = 0;
+	let totalLon = 0;
+	let length = 0;
+
+	for (let i = 0; i < document.getElementsByClassName('lats').length; i++) {
+		if (document.getElementsByClassName('lats')[i].textContent != "") {
+			totalLat = totalLat + parseFloat(document.getElementsByClassName('lats')[i].textContent);
+			length = length + 1;
+		}
+	}
+
+	for (let i = 0; i < document.getElementsByClassName('lons').length; i++) {
+		if (document.getElementsByClassName('lats')[i].textContent != "") {
+			totalLon = totalLon + parseFloat(document.getElementsByClassName('lons')[i].textContent);
+		}
+	}
+
+	let aveLat = totalLat / parseFloat(length);
+
+	let aveLon = totalLon / parseFloat(length);
+
+	midPoint = { lat: parseFloat(aveLat), lng: parseFloat(aveLon) };
+}
+
+function clearMarkers() {
+	for (let i = 0; i < mark.length; i++) {
+		mark[i].setMap(null);
+	}
+}
+
+function markMid() {
+	if ( midMarker != null ) {
+		midMarker.setMap(null)
+	}
+	getAll();
+	document.getElementById('resultmodalbutton').classList.remove('invisible');
+
+	let image = {
+		url: ICONS[26],
+		scaledSize: new google.maps.Size(50,50),
+	}
+
+	midMarker = new google.maps.Marker({
+		position: midPoint,
+		map: map,
+		draggable: true,
+		// label: 'X',
+		icon: image,
+		animation: google.maps.Animation.DROP
+	});
+	map.setZoom(14);
+	map.panTo(midMarker.position);
+	findPlaces();
+	showRoutes();
+	// For reference only can remove later
+	$('#dragLat').html(midMarker.position.lat());
+	$('#dragLong').html(midMarker.position.lng());
+
+	google.maps.event.addListener(midMarker, 'dragend', function(evt) {
+		$('#dragLat').html(midMarker.position.lat());
+		$('#dragLong').html(midMarker.position.lng());
+	});
+
+	// Drag to search feature
+	google.maps.event.addListener(midMarker, 'dragend', function(evt) {
+		clearList();
+		findPlaces();
+		showRoutes();
+		// map.panTo(evt.latLng);
+	});
+}
+
+function createMarker(place) {
+	let image = {
+		url: ICONS[25],
+		scaledSize: new google.maps.Size(32,32)
+	}
+
+	var marker = new google.maps.Marker({
+		map: map,
+		position: place.geometry.location,
+		icon: image
+	});
+	mark.push(marker);
+
+	google.maps.event.addListener(marker, 'click', function() {
+		infoWindow.setContent(place.name);
+		infoWindow.open(map, this);
+	});
+}
+
+function findPlaces() {
+	clearMarkers();
+	clearRoutes();
+
+	routes = [];
+	placesArr = [];
+
+	getAll();
+
+	var request = {
+		location: { lat: midMarker.position.lat(), lng: midMarker.position.lng() },
+		radius: 2000,
+		type: $('#type').val(),
+	};
+
+	// Info pop up window
+	infoWindow = new google.maps.InfoWindow();
+
+	var service = new google.maps.places.PlacesService(map);
+	service.nearbySearch(request, callback);
+}
+
+function callback(results, status) {
+	if (status == google.maps.places.PlacesServiceStatus.OK) {
+		results.forEach((result) => {
+			placesArr.push(result);
+		});
+	}
+	// Making marker for each place
+	var len = placesArr.length;
+	if (len > 0) {
+		const LIST = $('#listBoard');
+		$('#listBoard').show();
+		const DETS = $('#listText');
+
+		for (let i = 0; i < 10; i++) {
+			places = placesArr[i];
+			createMarker(places);
+
+			// Name
+			let placeName = places.name;
+
+			// Photo URL skip if place doesnt have photo
+			if (places.photos[0] == undefined) {
+				let photo = 'no-image.png';
+			} else {
+				// Photo URL
+				let photo = places.photos[0].getUrl({ maxWidth: 100, maxHeight: 100 });
+
+				// Rating (out of 5)
+				let rating = places.rating;
+
+				// Address
+				let address = places.vicinity;
+
+				// Creating the list (to be styled later)
+				doc = document.createElement('div');
+
+				doc.innerHTML = `<div class="listText placeName">
+									${placeName}
+								<div class="rating">${rating} stars</div>
+								<div class="address">${address}</div>
+								<div class="photo"><img src=${photo}/>
+								</div>
+								</div>`;
+
+				$('#listBoard').append(doc);
+			}
+		}
+	}
+}
+
+function clearList() {
+	let clear = document.getElementById('listBoard');
+	while (clear.firstChild) {
+		clear.removeChild(clear.firstChild);
+	}
+}
+
+function fillCur() {
+	// Inputting values into hidden fields when use current location button is pressed
+	$("#lat").val(curLat);
+	$("#lon").val(curLng);
+	$("#address").val(address);
+	$("#person").val(address);
+	$("#lat").val(curLat);
+	$("#lon").val(curLng);
+	markPlace();
+	$("#magicbutton")
+}
+
+function reverseGeocode() {
+	$.getJSON(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${curLat},${curLng}&key=${API_KEY}`, function( data ) {
+		address = data.results[0].formatted_address;
+		fillCur();
+		document.getElementById('magicbutton').classList = 'btn btn-success m-0';
+		document.getElementById('confirm').disabled = false;
+	})
+}
+
+function getCurrentLocation() {
+	if ( navigator.geolocation ) {
+		navigator.geolocation.getCurrentPosition(function(position){
+			 curLat = position.coords.latitude;
+			 curLng = position.coords.longitude;
+			 console.log('1')
+			 console.log(curLat)
+			 reverseGeocode();
+		});
+	} else {
+		// Change button to say unabel to find location and removing the event listener
+		$("#currentLocation").text() = "Unable to find location!";
+		$("#currentLocation").unbind("click");
+		$("#currentLocation").attr("class", "btn btn-danger");
+	}
+}
+
+function markUsers(latLng, name, avatarNum) {
+	let contentString = `<div>${name}</div>`;
+
+	let infowindow = new google.maps.InfoWindow({
+		content: contentString
+	})
+
+	if ( avatarNum != "" ) {
+			ava = {
+			url: ICONS[avatarNum],
+			scaledSize: new google.maps.Size(35,35)
+		}
+	} else {
+			ava = {
+			url: ICONS[27],
+			scaledSize: new google.maps.Size(35,35)
+		}
+	}
+
+	let markUser = new google.maps.Marker({
+		map: map,
+		position: latLng,
+		icon: ava,
+		animation: google.maps.Animation.DROP
+	})
+
+	markUser.addListener('click', function() {
+		infowindow.open(map, markUser);
+	})
+}
+
+function placeAllMarks() {
+
+	for ( let i = 0; i < document.getElementsByClassName("allNames").length; i++ ) {
+		if ( document.getElementsByClassName("lats")[i] != null ) {
+			let tempName = document.getElementsByClassName("allNames")[i].textContent;
+			let tempLat = parseFloat(document.getElementsByClassName("lats")[i].textContent);
+			let tempLng = parseFloat(document.getElementsByClassName("lons")[i].textContent);
+			let tempLatLng = {lat: tempLat, lng: tempLng};
+			let avatar = document.getElementsByClassName("iconNum")[i].textContent
+			if ( avatar != "" ) {
+				document.getElementsByClassName("memIcon")[i].src = ICONS[avatar];
+			} else {
+				document.getElementsByClassName("memIcon")[i].src = ICONS[27]
+			}
+
+			document.getElementsByClassName("memIcon")[i].classList.remove("d-none");
+
+			markUsers(tempLatLng, tempName, avatar);
+		}
+	}
+}
+
+function drawDirections(pointA, pointB, name) {
+
+	// directionsDisplay.setMap(map);
+
+	let start = pointA;
+	let end = pointB;
+	let mem = name;
+
+	let request = {
+		origin: pointA,
+		destination: pointB,
+		travelMode: 'DRIVING'
+	};
+
+	directions.route(request, function(response, status) {
+		if ( status == google.maps.DirectionsStatus.OK ) {
+			renderer.setDirections(response);
+			// renderer.setMap(map);
+			renderDirections(response, pointA, pointB, name);
+		} else {
+			console.log('Could not render!')
+		}
+	})
+}
+
+function clearRoutes() {
+	for ( let i = 0; i < routes.length; i++ ) {
+		routes[i].setMap(null);
+	}
+}
+
+// Calculating lat/long starting and end point for drawing of Polylines
+function showRoutes() {
+		for (let i = 0; i < document.getElementsByClassName('lats').length; i++) {
+		if (document.getElementsByClassName('lats')[i].textContent != "") {
+			let pointA = {lat: parseFloat(document.getElementsByClassName("lats")[i].textContent), lng: parseFloat(document.getElementsByClassName("lons")[i].textContent)};
+			let pointB = { lat: midMarker.position.lat(), lng: midMarker.position.lng() };
+			let name = document.getElementsByClassName("allNames")[i].textContent;
+			drawDirections(pointA, pointB, name);
+		}
+	}
+}
+
+// Polyline color + sizing options
+var polylineOptions = {
+	strokeColor: '#C83939',
+	strokeOpacity: 1,
+	strokeWeight: 4
+};
+
+// Drawing the Polylines
+function renderDirections(response, pointA, pointB, name) {
+	let legs = response.routes[0].legs;
+	for ( let i = 0; i < legs.length; i++ ) {
+		let steps = legs[i].steps;
+
+		for ( let j = 0; j < steps.length; j++ ) {
+			let nextSegment = steps[j].path;
+			let stepPolyline = new google.maps.Polyline(polylineOptions);
+			for ( let k = 0; k < nextSegment.length; k++ ) {
+				stepPolyline.getPath().push(nextSegment[k]);
+			}
+			routes.push(stepPolyline);
+			stepPolyline.setMap(map);
+			map.setZoom(14);
+			map.panTo(midMarker.position);
+			google.maps.event.addListener(stepPolyline, 'click', function(evt) {
+				let request = {
+					origins: [pointA],
+					destinations: [pointB],
+					travelMode: 'DRIVING'
+				}
+
+				let service = new google.maps.DistanceMatrixService();
+				service.getDistanceMatrix(request, function(response, status) {
+					if ( status == 'OK' ) {
+						infowindows.setContent(`${name}: Distance: ${response.rows[0].elements[0].distance.text} \n Travel time: ${response.rows[0].elements[0].duration.text}`)
+						infowindows.setPosition(evt.latLng);
+						infowindows.open(map);
+					} else {
+						console.log('could not get distance')
+					}
+				})
+			})
+		}
+	}
+}
+
+function avatarChooser() {
+	let test = document.createElement('div')
+
+	let temp = document.querySelectorAll(".iconNum");
+	let num = temp[temp.length-1].textContent;
+
+	test.innerHTML =
+`<div class="avatarSelector">
+	<ul id="multicol-menu" class="nav pull-right">
+	    <li class="dropdown" class="dropdown-toggle" data-toggle="dropdown"><span>
+	       <%= image_tag image_url('aquaman.png'), {:id => 'chosenIcon'} %></span><b class="caret"></b>
+	        <ul class="dropdown-menu">
+	            <li>
+	                <div class="row" style="width: 300px;">
+	                    <ul class="list-unstyled col">
+	                        <li id="01"><%= image_tag image_url('aquaman.png') %></li>
+	                        <li id="06"><%= image_tag image_url('deadpool.png') %></li>
+	                        <li id="11"><%= image_tag image_url('hawkeye.png') %></li>
+	                        <li id="16"><%= image_tag image_url('luke-cage.png') %></li>
+	                        <li id="21"><%= image_tag image_url('storm.png') %></li>
+	                    </ul>
+	                    <ul class="list-unstyled col">
+	                        <li id="02"><%= image_tag image_url('batman.png') %></li>
+	                        <li id="07"><%= image_tag image_url('green-arrow.png') %></li>
+	                        <li id="12"><%= image_tag image_url('hulk.png') %></li>
+	                        <li id="17"><%= image_tag image_url('mystique.png') %></li>
+	                        <li id="22"><%= image_tag image_url('superman.png') %></li>
+	                    </ul>
+	                    <ul class="list-unstyled col">
+	                        <li id="03"><%= image_tag image_url('captain-america.png') %></li>
+	                        <li id="08"><%= image_tag image_url('green-lantern.png') %></li>
+	                        <li id="13"><%= image_tag image_url('iron-man.png') %></li>
+	                        <li id="18"><%= image_tag image_url('nightwing.png') %></li>
+	                        <li id="23"><%= image_tag image_url('thor.png') %></li>
+	                    </ul>
+	                    <ul class="list-unstyled col">
+	                        <li id="04"><%= image_tag image_url('catwoman.png') %></li>
+	                        <li id="09"><%= image_tag image_url('groot.png') %></li>
+	                        <li id="14"><%= image_tag image_url('jessica-jones.png') %></li>
+	                        <li id="19"><%= image_tag image_url('rogue.png') %></li>
+	                        <li id="24"><%= image_tag image_url('wolverine.png') %></li>
+	                    </ul>
+	                    <ul class="list-unstyled col">
+	                        <li id="05"><%= image_tag image_url('cyclops.png') %></li>
+	                        <li id="10"><%= image_tag image_url('harley-quinn.png') %></li>
+	                        <li id="15"><%= image_tag image_url('joker.png') %></li>
+	                        <li id="20"><%= image_tag image_url('spider-man.png') %></li>
+	                        <li id="25"><%= image_tag image_url('wonder-woman.png') %></li>
+	                    </ul>
+	                </div>
+	            </li>
+	        </ul>
+	    </li>
+	</ul>
+</div>`;
+
+	let x = document.querySelectorAll(".iconSelector");
+	x[x.length - 1].appendChild(test);
+
+	$(".memIcon").last().remove()
+
+	$("#chosenIcon").attr('src', ICONS[num])
+	$("#icon").val(parseInt(num))
+	setUp()
+}
+
+
+
+
+
+
+
+
+
+
+
