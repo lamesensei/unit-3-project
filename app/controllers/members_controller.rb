@@ -11,6 +11,11 @@ class MembersController < ApplicationController
 
   def create
     @group = Group.find_by(code: params[:group_code])
+    @findmember = Member.find_by(name: params[:member][:name])
+    if @findmember != nil && @findmember.group == @group
+      cookies[:current_member] = @findmember.id
+      return redirect_to @group
+    end
     @member = Member.new(member_params)
     @member.group = @group
     @member.user = User.find(current_user.id) if current_user.present?
