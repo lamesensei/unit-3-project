@@ -4,6 +4,7 @@ class GroupsController < ApplicationController
   def index
     @user = User.find(current_user.id)
     @groups = @user.groups
+    redirect_to new_group_path if @groups.size == 0
   end
 
   def show
