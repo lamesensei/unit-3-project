@@ -18,8 +18,9 @@
       <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
         <div class="navbar-nav">
           <% if user_signed_in? %>
+            <%cookies.delete :current_member%>
             <%if current_user.profile%>
-              <%=link_to current_user.profile.username, user_profile_path(current_user.id, current_user.profile.id), class: "nav-item nav-link"%>
+              <%=link_to current_user.profile.username, profile_path(current_user.profile.id), class: "nav-item nav-link"%>
             <%else%>
               <%=link_to 'Create Profile', new_user_profile_path(current_user.id), class: "nav-item nav-link"%>
             <%end%>
@@ -40,6 +41,8 @@
           <% else %>
             <%= link_to'Login', new_user_session_path, class: "nav-item nav-link"  %>
             <%= link_to'Sign Up', new_user_registration_path, class: "nav-item nav-link"  %>
+            <span class="nav-item navbar-text text-white"><%= notice %></span>
+            <span class="nav-item navbar-text text-danger"><%= alert %></span>
           </div>
         <% end %>
       </div>

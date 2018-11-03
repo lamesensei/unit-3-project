@@ -1,12 +1,20 @@
 class GroupsController < ApplicationController
+  before_action :authenticate_user!, :except => [:show, :crossroads, :landing]
+
   def index
     @user = User.find(current_user.id)
-    @membership = @user.members
+    @groups = @user.groups
+    redirect_to new_group_path if @groups.size == 0
   end
 
   def show
     @group = Group.find_by(code: params[:code])
     @members = @group.members.all
+    if user_signed_in?
+      @member = Member.find_by user_id: current_user.id
+    elsif cookies[:current_member]
+      @member = Member.find(cookies[:current_member])
+    end
   end
 
   def new
@@ -24,11 +32,18 @@ class GroupsController < ApplicationController
     redirect_to @group
   end
 
+  def destroy
+    @group = Group.find_by(code: params[:code])
+    @group.destroy
+    redirect_to groups_path
+  end
+
   def landing
   end
 
   def crossroads
     @group = Group.find_by(code: params[:code])
+    return redirect_to root_path(:error => true) if @group == nil
     if user_signed_in?
       if @group.owner == User.find(current_user.id)
         return redirect_to @group
@@ -42,8 +57,8 @@ class GroupsController < ApplicationController
         @member.save
         redirect_to @group
       end
-    elsif cookies.signed[:current_member]
-      member_id = cookies.signed[:current_member]
+    elsif cookies[:current_member]
+      member_id = cookies[:current_member]
       if Member.find(member_id).group == @group
         return redirect_to @group
       end

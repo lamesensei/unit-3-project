@@ -5,7 +5,7 @@
   <div class="form-group">
     <%=form_with model: @profile, url: user_profiles_path, local: true do |f|%>
       <%=f.label 'Name'%>
-      <%=f.text_field :username, class:"form-control"%>
+      <%=f.text_field :username, class:"form-control", required: true%>
       <%#=f.label 'Full Name'%>
       <%#=f.text_field :fullname, class:"form-control"%>
       <%=f.label :age%>

@@ -1,19 +1,27 @@
 <div class="container-fluid">
   <div class="row m-5 mb-3">
-    <%@membership.each do |belongto|%>
-      <div class="col-3 mb-3">
-        <div class="card shadow">
-          <div class="card-header font-weight-bold">
-            <%=link_to belongto.group.code, group_path(belongto.group.code) %>
+    <%@groups.each do |group|%>
+      <%if group.owner == @user%>
+        <div class="col-3 mb-3">
+          <div class="card shadow">
+            <div class="card-header font-weight-bold">
+              <%=link_to group.code, group_path(group.code) %>
+            </div>
+            <ul class="list-group list-group-flush">
+              <%group.members.each do |member|%>
+                <li class="list-group-item"><%=member.name%></li>
+              <%end%>
+            </ul>
+            <div class="card-footer">
+              <%=
+							link_to 'Delete', group_path(group),
+							method: :delete,
+							data: { confirm: 'Are you sure?' },
+							class: "text-danger"
+							%></div>
           </div>
-          <ul class="list-group list-group-flush">
-            <%belongto.group.members.each do |member|%>
-              <li class="list-group-item"><%=member.name%></li>
-            <%end%>
-          </ul>
-          <div class="card-footer text-danger">Delete Group</div>
         </div>
-      </div>
+      <%end%>
     <%end%>
   </div>
 </div>

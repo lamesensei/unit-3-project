@@ -184,8 +184,8 @@ function markMid() {
 		icon: image,
 		animation: google.maps.Animation.DROP
 	});
-	map.setZoom(14);
-	map.panTo(midMarker.position);
+	// map.setZoom(14);
+	// map.panTo(midMarker.position);
 	findPlaces();
 	showRoutes();
 	// For reference only can remove later
@@ -478,7 +478,7 @@ function renderDirections(response, pointA, pointB, name) {
 			}
 			routes.push(stepPolyline);
 			stepPolyline.setMap(map);
-			map.setZoom(14);
+			map.setZoom(12.5);
 			map.panTo(midMarker.position);
 			google.maps.event.addListener(stepPolyline, 'click', function(evt) {
 				let request = {
@@ -505,8 +505,8 @@ function renderDirections(response, pointA, pointB, name) {
 function avatarChooser() {
 	let test = document.createElement('div')
 
-	let temp = document.querySelectorAll(".iconNum");
-	let num = temp[temp.length-1].textContent;
+	let temp = document.querySelector(".displayme");
+	let num = temp.textContent;
 
 	test.innerHTML =
 `<div class="avatarSelector">
@@ -558,10 +558,10 @@ function avatarChooser() {
 	</ul>
 </div>`;
 
-	let x = document.querySelectorAll(".iconSelector");
-	x[x.length - 1].appendChild(test);
+	let x = document.querySelector(".selectme");
+	x.appendChild(test);
 
-	$(".memIcon").last().remove()
+	$(".deleteme").remove()
 
 	$("#chosenIcon").attr('src', ICONS[num])
 	$("#icon").val(parseInt(num))

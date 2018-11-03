@@ -1,9 +1,16 @@
 <div class="jumbotron w-50 mx-auto p-4 shadow jumboform">
-  <h1 class="display-4 title">RUMU</h1>
-  <p class="lead">Ready Up; Meet Up. <br>
-    Find the perfect place to meet: <span class="title">all the time, any time.</span>
-  </p>
+  <% if user_signed_in? %>
+    <h1 class="display-4 title">Hey <%=current_user.profile.username%></h1>
+  <%else%>
+    <h1 class="display-4 title">RUMU</h1>
+    <p class="lead">Ready Up; Meet Up. <br>
+      Find the perfect place to meet: <span class="title">all the time, any time.</span>
+    </p>
+  <%end%>
   <hr>
+  <%if params[:error]%>
+    <p class="text-danger">Group not found!</p>
+  <%end%>
   <p>
     Enter group code to start.
   </p>

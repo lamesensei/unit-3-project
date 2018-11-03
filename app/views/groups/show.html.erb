@@ -3,20 +3,14 @@
     <%=@group.code%>
   </h1>
   <div class="input-group">
-  	<button class="btn btn-primary" id="currentLocation">Use Current Location</button>
-    <%# <select id="input">
-	          <option value="">Fav1 - In Progress</option>
-	          <option value="">Fav2</option>
-	          <option value="">Fav3</option>
-	          <option value="">Fav4</option>
-	        </select> %>
-    <input class="form-control" id="person" placeholder="Hi <%=@members.last.name%>! Please search an address..."/>
+    <button class="btn btn-primary" id="currentLocation">Use Current Location</button>
+    <input class="form-control" id="person" placeholder="Hi <%=@member.name%>! Please search an address..."/>
     <div class="input-group-append">
       <span class="btn btn-success greenButton d-none" id="place">Mark</span>
       <label for="confirm" class="btn btn-success m-0 disabled greenButton" id="magicbutton" disabled>Submit</label>
     </div>
   </div>
-  <%= form_for :member, url: member_path(@members.last), method: :patch do |form| %>
+  <%= form_for :member, url: member_path(@member), method: :patch do |form| %>
     <%= form.hidden_field :lat, {:id => "lat"} %>
     <%= form.hidden_field :lon, {:id => "lon"} %>
     <%= form.hidden_field :place, {:id => "address"} %>
@@ -35,8 +29,15 @@
           <h5 class="card-title">
             <%=member.name%>
           </h5>
-          	<span class="iconNum d-none"><%=member.icon%></span>
-          	<div class="iconSelector"><%=image_tag image_url('aquaman.png'), {:class => 'memIcon d-none'}%></div>
+          <%if member == @member%>
+            <span class="iconNum d-none displayme"><%=member.icon%></span>
+            <div class="iconSelector selectme">
+              <%=image_tag image_url('aquaman.png'), {:class => 'memIcon d-none deleteme'}%></div>
+          <%else%>
+            <span class="iconNum d-none"><%=member.icon%></span>
+            <div class="iconSelector">
+              <%=image_tag image_url('aquaman.png'), {:class => 'memIcon d-none'}%></div>
+          <%end%>
           <p class="card-text">
             <%=member.place%>
           </p>
@@ -44,10 +45,8 @@
       </div>
     <%end%>
   </div>
-
   <div class="input-group mt-2" id="midFinder">
     <select class="custom-select" id="type" aria-label="Example select with button addon">
-      <option selected>Choose...</option>
       <option value="cafe">Coffee</option>
       <option value="restaurant">Restaurants</option>
       <option value="bar">Bars</option>
@@ -81,11 +80,11 @@
     </div>
   </div>
   <div class="d-none">
-  	<div id="allName">
-  		<%@members.each do |member|%>
-	  		<div class="allNames"><%= member.name %></div>
-  		<%end%>
-  	</div>
+    <div id="allName">
+      <%@members.each do |member|%>
+        <div class="allNames"><%= member.name %></div>
+      <%end%>
+    </div>
     <div id="allLat">
       <%@members.each do |member|%>
         <div class="lats"><%= member.lat %></div>
@@ -97,13 +96,11 @@
       <%end%>
     </div>
     <div id="allSel">
-    	<%@members.each do |member|%>
-    		<div class="allSels"><%= member.icon %></div>
-    	<%end%>
+      <%@members.each do |member|%>
+        <div class="allSels"><%= member.icon %></div>
+      <%end%>
     </div>
   </div>
-  <%# <div id="listBoard"></div> %>
-
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCM3MixfBEjbgbPdvlSEu8kubULJuXv9bg&libraries=places&callback=initMap"
 	    async defer></script>
 </div>
