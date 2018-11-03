@@ -12,7 +12,13 @@
                 <li class="list-group-item"><%=member.name%></li>
               <%end%>
             </ul>
-            <div class="card-footer text-danger">Delete Group</div>
+            <div class="card-footer">
+              <%=
+							link_to 'Delete', group_path(group),
+							method: :delete,
+							data: { confirm: 'Are you sure?' },
+							class: "text-danger"
+							%></div>
           </div>
         </div>
       <%end%>

@@ -31,6 +31,12 @@ class GroupsController < ApplicationController
     redirect_to @group
   end
 
+  def destroy
+    @group = Group.find_by(code: params[:code])
+    @group.destroy
+    redirect_to groups_path
+  end
+
   def landing
   end
 

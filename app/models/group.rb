@@ -1,6 +1,6 @@
 class Group < ApplicationRecord
   validates :code, uniqueness: true
-  has_many :members
+  has_many :members, dependent: :destroy
 
   def to_param
     code
