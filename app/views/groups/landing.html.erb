@@ -8,6 +8,9 @@
     </p>
   <%end%>
   <hr>
+  <%if params[:error]%>
+    <p class="text-danger">Group not found!</p>
+  <%end%>
   <p>
     Enter group code to start.
   </p>

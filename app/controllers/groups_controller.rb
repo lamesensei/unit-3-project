@@ -1,4 +1,6 @@
 class GroupsController < ApplicationController
+  before_action :authenticate_user!, :except => [:show, :crossroads, :landing]
+
   def index
     @user = User.find(current_user.id)
     @groups = @user.groups
@@ -34,6 +36,7 @@ class GroupsController < ApplicationController
 
   def crossroads
     @group = Group.find_by(code: params[:code])
+    return redirect_to root_path(:error => true) if @group == nil
     if user_signed_in?
       if @group.owner == User.find(current_user.id)
         return redirect_to @group
