@@ -7,6 +7,11 @@ class GroupsController < ApplicationController
   def show
     @group = Group.find_by(code: params[:code])
     @members = @group.members.all
+    if user_signed_in?
+      @member = Member.find_by user_id: current_user.id
+    elsif cookies[:current_member]
+      @member = Member.find(cookies[:current_member])
+    end
   end
 
   def new
@@ -42,8 +47,8 @@ class GroupsController < ApplicationController
         @member.save
         redirect_to @group
       end
-    elsif cookies.signed[:current_member]
-      member_id = cookies.signed[:current_member]
+    elsif cookies[:current_member]
+      member_id = cookies[:current_member]
       if Member.find(member_id).group == @group
         return redirect_to @group
       end

@@ -11,11 +11,11 @@ class MembersController < ApplicationController
 
   def create
     @group = Group.find_by(code: params[:group_code])
-    @member = Member.new(name: params[:name])
+    @member = Member.new(member_params)
     @member.group = @group
     @member.user = User.find(current_user.id) if current_user.present?
     @member.save
-    cookies.signed[:current_member] = @member.id
+    cookies[:current_member] = @member.id
     redirect_to @group
   end
 
@@ -32,6 +32,6 @@ class MembersController < ApplicationController
   private
 
   def member_params
-    params.require(:member).permit(:name, :code)
+    params.require(:member).permit(:name)
   end
 end
