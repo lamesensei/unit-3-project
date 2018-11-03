@@ -14,7 +14,7 @@ class ProfilesController < ApplicationController
     @profile = Profile.new(profile_params)
     @profile.user = User.find(params[:user_id])
     @profile.save
-    redirect_to @profile
+    redirect_to root_path
   end
 
   def edit
@@ -24,7 +24,6 @@ class ProfilesController < ApplicationController
   def update
     @profile = Profile.find(params[:id])
     @profile.update(profile_params)
-
     redirect_to @profile
   end
 
