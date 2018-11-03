@@ -184,8 +184,8 @@ function markMid() {
 		icon: image,
 		animation: google.maps.Animation.DROP
 	});
-	map.setZoom(14);
-	map.panTo(midMarker.position);
+	// map.setZoom(14);
+	// map.panTo(midMarker.position);
 	findPlaces();
 	showRoutes();
 	// For reference only can remove later
@@ -478,7 +478,7 @@ function renderDirections(response, pointA, pointB, name) {
 			}
 			routes.push(stepPolyline);
 			stepPolyline.setMap(map);
-			map.setZoom(14);
+			map.setZoom(12.5);
 			map.panTo(midMarker.position);
 			google.maps.event.addListener(stepPolyline, 'click', function(evt) {
 				let request = {
