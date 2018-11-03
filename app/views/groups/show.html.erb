@@ -29,8 +29,15 @@
           <h5 class="card-title">
             <%=member.name%>
           </h5>
-          <span class="iconNum d-none"><%=member.icon%></span>
-          <div class="iconSelector"><%=image_tag image_url('aquaman.png'), {:class => 'memIcon d-none'}%></div>
+          <%if member == @member%>
+            <span class="iconNum d-none displayme"><%=member.icon%></span>
+            <div class="iconSelector selectme">
+              <%=image_tag image_url('aquaman.png'), {:class => 'memIcon d-none deleteme'}%></div>
+          <%else%>
+            <span class="iconNum d-none"><%=member.icon%></span>
+            <div class="iconSelector">
+              <%=image_tag image_url('aquaman.png'), {:class => 'memIcon d-none'}%></div>
+          <%end%>
           <p class="card-text">
             <%=member.place%>
           </p>
