@@ -18,6 +18,7 @@
       <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
         <div class="navbar-nav">
           <% if user_signed_in? %>
+            <%cookies.delete :current_member%>
             <%if current_user.profile%>
               <%=link_to current_user.profile.username, profile_path(current_user.profile.id), class: "nav-item nav-link"%>
             <%else%>
