@@ -1,4 +1,5 @@
 class Group < ApplicationRecord
+  validates :code, uniqueness: true
   has_many :members
 
   def to_param
