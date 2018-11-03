@@ -5,9 +5,9 @@
   <div class="form-group">
     <%=form_with model: @group, local: true, html: { autocomplete: "off" } do |f|%>
       <%=f.label :code%>
-      <%=f.text_field :code, class: "form-control"%>
+      <%=f.text_field :code, class: "form-control", required: true%>
       <%=f.label :size%>
-      <%=f.text_field :size, class: "form-control"%>
+      <%=f.text_field :size, class: "form-control", required: true%>
       <button type="submit" class="btn btn-sm btn-danger font-weight-bold mt-3">Submit</button>
     <%end%>
   </div>

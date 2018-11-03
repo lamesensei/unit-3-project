@@ -6,7 +6,7 @@
     <%= form_with model: @profile, local: true do |f| %>
       <div class="field">
         <%= f.label "Name" %>
-        <%= f.text_field :username, class: "form-control" %>
+        <%= f.text_field :username, class: "form-control", required: true %>
       </div>
       <div class="field">
         <%= f.label :age %>
