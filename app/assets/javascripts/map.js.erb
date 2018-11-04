@@ -35,7 +35,8 @@ routes = [];
 function initMap() {
 map = new google.maps.Map(document.getElementById('map'), {
 zoom: 11,
-center: { lat: 1.35721, lng: 103.8198 }
+center: { lat: 1.35721, lng: 103.8198 },
+styles: MAP_STYLE1
 });
 midMarker = null;
 infowindows = new google.maps.InfoWindow();

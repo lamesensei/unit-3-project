@@ -14,7 +14,7 @@
   <p>
     Enter group code to start.
   </p>
-  <%=form_with url: crossroads_path, method: :get, local: true do |f| %>
+  <%=form_with url: crossroads_path, method: :get, local: true, html: { autocomplete: "off" } do |f| %>
     <div class="form-group d-md-flex justify-content-between">
       <%=f.text_field :code, class: "form-control m-1", placeholder: "Group Code"%>
       <button type="submit" class="btn btn-sm btn-danger font-weight-bold m-1">GO</button>
