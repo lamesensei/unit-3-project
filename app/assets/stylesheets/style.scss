@@ -26,14 +26,16 @@ body {
 
 .scrolly {
   overflow: scroll;
+  overflow-x: hidden;
 }
-
-// .blurbg {
-//   background: url(https://picsum.photos/g/1920/1080/?random);
-//   background-position: center;
-//   background-size: cover;
-//   background-repeat: no-repeat;
-// }
+::-webkit-scrollbar {
+  width: 0px; /* remove scrollbar space */
+  background: transparent; /* optional: just make scrollbar invisible */
+}
+/* optional: show position indicator in red */
+::-webkit-scrollbar-thumb {
+  background: #ff0000;
+}
 
 #map {
   height: 50%;
