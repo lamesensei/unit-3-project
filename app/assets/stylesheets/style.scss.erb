@@ -9,6 +9,10 @@ body {
   background-repeat: repeat;
 }
 
+.h-100 {
+	padding-top: 55px;
+}
+
 .title {
   font-family: 'Righteous', cursive;
 }
@@ -38,7 +42,7 @@ body {
 }
 
 #map {
-  height: 50%;
+  height: 91vh;
   width: 100%;
 }
 
@@ -95,4 +99,10 @@ ul .dropdown-menu img:hover {
 
 .p-2 {
 	opacity: 0.9;
+}
+
+@media only screen and (max-width: 990px) {
+	#map {
+		height: 50vh;
+	}
 }
