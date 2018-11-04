@@ -64,9 +64,8 @@ class GroupsController < ApplicationController
       if Member.find(member_id).group == @group
         return redirect_to @group
       end
-    else
-      @member = Member.new
     end
+    @member = Member.new
   end
 
   private
