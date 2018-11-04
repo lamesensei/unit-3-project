@@ -9,6 +9,10 @@ body {
   background-repeat: repeat;
 }
 
+.h-100 {
+	padding-top: 55px;
+}
+
 .title {
   font-family: 'Righteous', cursive;
 }
@@ -38,8 +42,26 @@ body {
 }
 
 #map {
-  height: 50%;
+  height: 85vh;
   width: 100%;
+}
+
+#test {
+	height: 100%;
+	width: 100%;
+	position: absolute;
+	z-index: 10;
+}
+
+#midFinder {
+	bottom: 20px;
+	z-index: 20;
+	position: absolute;
+	padding: 0 10px;
+}
+
+.scrolly {
+	z-index: 20;
 }
 
 .avatars {
@@ -68,7 +90,7 @@ ul .dropdown-menu img:hover {
 
 .stars-outer::before {
   content: '\f006 \f006 \f006 \f006 \f006';
-  color: #ff00bf;
+  color: #999998FF;
 }
 
 .stars-inner {
@@ -82,7 +104,7 @@ ul .dropdown-menu img:hover {
 
 .stars-inner::before {
   content: '\f005 \f005 \f005 \f005 \f005';
-  color: #00ff9c;
+  color: #f8b703;
 }
 
 .scrolly {
@@ -95,4 +117,10 @@ ul .dropdown-menu img:hover {
 
 .p-2 {
 	opacity: 0.9;
+}
+
+@media only screen and (max-width: 990px) {
+	#map {
+		height: 50vh;
+	}
 }
