@@ -1,4 +1,4 @@
-console.log('linked!');
+// console.log('linked!');
 const API_KEY = 'AIzaSyCM3MixfBEjbgbPdvlSEu8kubULJuXv9bg';
 const ICONS = ["<%= asset_path('aquaman.png') %>",
 "<%= asset_path('batman.png') %>",
@@ -75,14 +75,14 @@ function markPlace() {
 
 	let avatarNum = $("#icon").val();
 
-	if ( avatarNum != "" ) {
+	if ( isNaN(avatarNum) == false ) {
 			ava = {
 			url: ICONS[avatarNum],
 			scaledSize: new google.maps.Size(35,35)
 		}
 	} else {
 			ava = {
-			url: ICONS[27],
+			url: ICONS[0],
 			scaledSize: new google.maps.Size(35,35)
 		}
 	}
@@ -162,7 +162,7 @@ function markMid() {
 
 	let image = {
 		url: ICONS[26],
-		scaledSize: new google.maps.Size(50,50),
+		scaledSize: new google.maps.Size(45,45),
 	}
 
 	midMarker = new google.maps.Marker({
@@ -198,7 +198,7 @@ function markMid() {
 function createMarker(place) {
 	let image = {
 		url: ICONS[25],
-		scaledSize: new google.maps.Size(32,32)
+		scaledSize: new google.maps.Size(21,32)
 	}
 
 	var marker = new google.maps.Marker({
@@ -236,12 +236,24 @@ function findPlaces() {
 	service.nearbySearch(request, callback);
 }
 
+function sortBy(arr, key) {
+	return arr.sort( function(a,b) {
+		let x = b[key];
+		let y = a[key];
+		return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+	});
+}
+
 function callback(results, status) {
 	if (status == google.maps.places.PlacesServiceStatus.OK) {
 		results.forEach((result) => {
   placesArr.push(result);
   });
   }
+
+  // Sorting array list by rating
+  placesArr = sortBy(placesArr, 'rating');
+
   // Making marker for each place
   var len = placesArr.length;
   if (len > 0) {
@@ -276,7 +288,7 @@ function callback(results, status) {
 			doc.classList = "list-group-item p-0"
 			        doc.innerHTML = `
   <div>
-    <img class="img-fluid" src=${photo}" />
+    <img class="img-fluid" src="${photo}" />
   </div>
   <div class="p-2">
     <div class="font-weight-bold">
@@ -332,7 +344,7 @@ function callback(results, status) {
   curLat = position.coords.latitude;
   curLng = position.coords.longitude;
   console.log('1')
-  console.log(curLat)
+  // console.log(curLat)
   reverseGeocode();
   });
   } else {
