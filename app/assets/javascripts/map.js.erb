@@ -328,30 +328,32 @@ function sortBy(arr, key) {
   markPlace();
   $("#magicbutton")
   }
-  function reverseGeocode() {
-  $.getJSON(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${curLat},${curLng}&key=${API_KEY}`, function( data ) {
-  address = data.results[0].formatted_address;
-  fillCur();
-  document.getElementById('magicbutton').classList = 'btn btn-success m-0';
-  document.getElementById('confirm').disabled = false;
-  })
-  }
-  function getCurrentLocation() {
+
+function reverseGeocode() {
+	$.getJSON(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${curLat},${curLng}&key=${API_KEY}`, function( data ) {
+		address = data.results[0].formatted_address;
+		fillCur();
+		document.getElementById('magicbutton').classList = 'btn btn-success m-0';
+		document.getElementById('confirm').disabled = false;
+		})
+}
+
+function getCurrentLocation() {
   if ( navigator.geolocation ) {
-  navigator.geolocation.getCurrentPosition(function(position){
-  curLat = position.coords.latitude;
-  curLng = position.coords.longitude;
-  console.log('1')
-  // console.log(curLat)
-  reverseGeocode();
-  });
+	  navigator.geolocation.getCurrentPosition(function(position){
+		  curLat = position.coords.latitude;
+		  curLng = position.coords.longitude;
+		  // console.log(curLat)
+		  reverseGeocode();
+	  });
   } else {
-  // Change button to say unabel to find location and removing the event listener
-  $("#currentLocation").text() = "Unable to find location!";
-  $("#currentLocation").unbind("click");
-  $("#currentLocation").attr("class", "btn btn-danger");
+	  // Change button to say unabel to find location and removing the event listener
+	  $("#currentLocation").text() = "Unable to find location!";
+	  $("#currentLocation").unbind("click");
+	  $("#currentLocation").attr("class", "btn btn-danger");
   }
-  }
+}
+
   function markUsers(latLng, name, avatarNum) {
   let contentString = `
   <div>${name}</div>
