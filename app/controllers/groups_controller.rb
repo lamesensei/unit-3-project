@@ -28,6 +28,8 @@ class GroupsController < ApplicationController
     @member = Member.new(name: current_user.profile.username)
     @member.group = @group
     @member.user = @user
+    @member.place = "Singapore"
+    @member.icon = Random.new.rand(25)
     @member.save
     redirect_to @group
   end

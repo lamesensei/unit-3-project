@@ -242,19 +242,16 @@ function sortBy(arr, key) {
 		let x = b[key];
 		let y = a[key];
 		return ((x < y) ? -1 : ((x > y) ? 1 : 0));
-	});
-}
-
-function callback(results, status) {
-	if (status == google.maps.places.PlacesServiceStatus.OK) {
-		results.forEach((result) => {
+  });
+  }
+  function callback(results, status) {
+  if (status == google.maps.places.PlacesServiceStatus.OK) {
+  results.forEach((result) => {
   placesArr.push(result);
   });
   }
-
   // Sorting array list by rating
   placesArr = sortBy(placesArr, 'rating');
-
   // Making marker for each place
   var len = placesArr.length;
   if (len > 0) {
@@ -548,13 +545,10 @@ function avatarChooser() {
     </ul>
   </div>
   `;
-
-  let rNum = Math.floor(Math.random() * 25)
-
   let x = document.querySelector(".selectme");
   x.appendChild(test);
   $(".deleteme").remove()
-  $("#chosenIcon").attr('src', ICONS[rNum])
-  $("#icon").val(parseInt(rNum))
+  $("#chosenIcon").attr('src', ICONS[num])
+  $("#icon").val(parseInt(num))
   setUp()
   }

@@ -19,6 +19,8 @@ class MembersController < ApplicationController
     @member = Member.new(member_params)
     @member.group = @group
     @member.user = User.find(current_user.id) if current_user.present?
+    @member.place = "Singapore"
+    @member.icon = Random.new.rand(25)
     @member.save
     cookies[:current_member] = @member.id
     redirect_to @group
