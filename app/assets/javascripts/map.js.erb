@@ -548,10 +548,13 @@ function avatarChooser() {
     </ul>
   </div>
   `;
+
+  let rNum = Math.floor(Math.random() * 25)
+
   let x = document.querySelector(".selectme");
   x.appendChild(test);
   $(".deleteme").remove()
-  $("#chosenIcon").attr('src', ICONS[num])
-  $("#icon").val(parseInt(num))
+  $("#chosenIcon").attr('src', ICONS[rNum])
+  $("#icon").val(parseInt(rNum))
   setUp()
   }
