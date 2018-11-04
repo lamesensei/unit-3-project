@@ -24,8 +24,11 @@ body {
   margin-top: 17vh;
 }
 
-.nobg {
-  background: white;
+.blurbg {
+  background: url(https://picsum.photos/g/1920/1080/?blur);
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
 #map {
@@ -34,13 +37,13 @@ body {
 }
 
 .avatars {
-	background-color: transparent;
-	border-color: transparent;
-	padding: 5px;
+  background-color: transparent;
+  border-color: transparent;
+  padding: 5px;
 }
 
 ul .list-unstyled {
-	padding: 0px;
+  padding: 0px;
 }
 
 ul .dropdown-menu {
@@ -48,7 +51,7 @@ ul .dropdown-menu {
 }
 
 ul .dropdown-menu img:hover {
-	background-color: #0F7FFEFF;
+  background-color: #0f7ffeff;
 }
 
 .stars-outer {
@@ -58,8 +61,8 @@ ul .dropdown-menu img:hover {
 }
 
 .stars-outer::before {
-  content: "\f006 \f006 \f006 \f006 \f006";
-	color: #ff00bf
+  content: '\f006 \f006 \f006 \f006 \f006';
+  color: #ff00bf;
 }
 
 .stars-inner {
@@ -72,6 +75,6 @@ ul .dropdown-menu img:hover {
 }
 
 .stars-inner::before {
-  content: "\f005 \f005 \f005 \f005 \f005";
+  content: '\f005 \f005 \f005 \f005 \f005';
   color: #00ff9c;
 }

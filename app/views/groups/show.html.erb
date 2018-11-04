@@ -1,14 +1,66 @@
-<div class="container-fluid h-100 nobg">
-  <h1 class="display-3">
-    <%=@group.code%>
-  </h1>
-  <div class="input-group">
-    <button class="btn btn-primary" id="currentLocation">Use Current Location</button>
-    <input class="form-control" id="person" placeholder="Hi <%=@member.name%>! Please search an address..."/>
-    <div class="input-group-append">
-      <span class="btn btn-success greenButton d-none" id="place">Mark</span>
-      <label for="confirm" class="btn btn-success m-0 disabled greenButton" id="magicbutton" disabled>Submit</label>
+<div class="container-fluid h-100 blurbg">
+  <div class="row h-100">
+    <div class="col-lg-3">
+      <div class="card shadow mt-2">
+        <div class="card-header title text-uppercase"><%=@group.code%> | Members</div>
+        <ul class="list-group-flush p-0">
+          <%@members.each_with_index do |member, index|%>
+            <%if member == @member%>
+              <li class="list-group-item">
+                <div class="d-flex align-items-center justify-content-between">
+                  <div class="font-weight-bold"><%=member.name%></div>
+                  <span class="iconNum d-none displayme"><%=member.icon%></span>
+                  <div class="iconSelector selectme">
+                    <%=image_tag image_url('aquaman.png'), {:class => 'memIcon d-none deleteme'}%>
+                  </div>
+                </div>
+                <small>
+                  <div><%=member.place%></div>
+                </small>
+                <div class="input-group input-group-sm mt-1">
+                  <input class="form-control" id="person" placeholder="Search / Get Location"/>
+                  <div class="input-group-append">
+                    <button class="btn btn-sm btn-info" id="currentLocation"><i class="fa fa-map-pin"></i></button>
+                    <span class="btn btn-success greenButton d-none" id="place">Mark</span>
+                    <label for="confirm" class="btn btn-success m-0 disabled greenButton" id="magicbutton" disabled>Submit</label>
+                  </div>
+                </div>
+              </li>
+            <%else%>
+              <li class="list-group-item">
+                <div class="d-flex align-items-center justify-content-between">
+                  <div class="font-weight-bold"><%=member.name%></div>
+                  <span class="iconNum d-none"><%=member.icon%></span>
+                  <div class="iconSelector">
+                    <%=image_tag image_url('aquaman.png'), {:class => 'memIcon d-none'}%>
+                  </div>
+                </div>
+                <small>
+                  <div><%=member.place%></div>
+                </small>
+              </li>
+            <%end%>
+          <%end%>
+        </ul>
+      </div>
     </div>
+    <div class="col-lg-6">
+      <div id="map" class="row w-100 h-75 mt-2 shadow mr-0"></div>
+      <div class="row shadow">
+        <div class="input-group mt-2" id="midFinder">
+          <select class="custom-select" id="type" aria-label="Example select with button addon">
+            <option value="cafe">Coffee</option>
+            <option value="restaurant">Restaurants</option>
+            <option value="bar">Bars</option>
+            <option value="shopping_mall">Shopping</option>
+          </select>
+          <div class="input-group-append">
+            <button class="btn btn-danger" type="button" id ="calc"><i class="fa fa-crosshairs"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-3">resultlist</div>
   </div>
   <%= form_for :member, url: member_path(@member), method: :patch do |form| %>
     <%= form.hidden_field :lat, {:id => "lat"} %>
@@ -17,46 +69,6 @@
     <%= form.hidden_field :icon, {:id => "icon"} %>
     <%= form.submit(class: "d-none", value: "Submit", id: "confirm", disabled: true) %>
   <% end %>
-  <div class="card-group mt-2">
-    <%@members.each_with_index do |member, index|%>
-      <div class="card">
-        <%if index == 0%>
-          <div class="card-header">Owner</div>
-        <%else%>
-          <div class="card-header">Member</div>
-        <%end%>
-        <div class="card-body">
-          <h5 class="card-title">
-            <%=member.name%>
-          </h5>
-          <%if member == @member%>
-            <span class="iconNum d-none displayme"><%=member.icon%></span>
-            <div class="iconSelector selectme">
-              <%=image_tag image_url('aquaman.png'), {:class => 'memIcon d-none deleteme'}%></div>
-          <%else%>
-            <span class="iconNum d-none"><%=member.icon%></span>
-            <div class="iconSelector">
-              <%=image_tag image_url('aquaman.png'), {:class => 'memIcon d-none'}%></div>
-          <%end%>
-          <p class="card-text">
-            <%=member.place%>
-          </p>
-        </div>
-      </div>
-    <%end%>
-  </div>
-  <div class="input-group mt-2" id="midFinder">
-    <select class="custom-select" id="type" aria-label="Example select with button addon">
-      <option value="cafe">Coffee</option>
-      <option value="restaurant">Restaurants</option>
-      <option value="bar">Bars</option>
-      <option value="shopping_mall">Shopping</option>
-    </select>
-    <div class="input-group-append">
-      <button class="btn btn-danger" type="button" id ="calc">Locate Mid</button>
-    </div>
-  </div>
-  <div id="map" class="w-100 mt-2"></div>
   <!-- Button trigger modal -->
   <button type="button" class="btn btn-primary invisible m-2 mx-auto" data-toggle="modal" data-target="#resultmodal" id='resultmodalbutton'>
     Show Recommendations
