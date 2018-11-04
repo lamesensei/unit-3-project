@@ -1,106 +1,102 @@
-<div class="container-fluid h-100 nobg">
-  <h1 class="display-3">
-    <%=@group.code%>
-  </h1>
-  <div class="input-group">
-    <button class="btn btn-primary" id="currentLocation">Use Current Location</button>
-    <input class="form-control" id="person" placeholder="Hi <%=@member.name%>! Please search an address..."/>
-    <div class="input-group-append">
-      <span class="btn btn-success greenButton d-none" id="place">Mark</span>
-      <label for="confirm" class="btn btn-success m-0 disabled greenButton" id="magicbutton" disabled>Submit</label>
-    </div>
-  </div>
-  <%= form_for :member, url: member_path(@member), method: :patch do |form| %>
-    <%= form.hidden_field :lat, {:id => "lat"} %>
-    <%= form.hidden_field :lon, {:id => "lon"} %>
-    <%= form.hidden_field :place, {:id => "address"} %>
-    <%= form.hidden_field :icon, {:id => "icon"} %>
-    <%= form.submit(class: "d-none", value: "Submit", id: "confirm", disabled: true) %>
-  <% end %>
-  <div class="card-group mt-2">
-    <%@members.each_with_index do |member, index|%>
-      <div class="card">
-        <%if index == 0%>
-          <div class="card-header">Owner</div>
-        <%else%>
-          <div class="card-header">Member</div>
-        <%end%>
-        <div class="card-body">
-          <h5 class="card-title">
-            <%=member.name%>
-          </h5>
-          <%if member == @member%>
-            <span class="iconNum d-none displayme"><%=member.icon%></span>
-            <div class="iconSelector selectme">
-              <%=image_tag image_url('aquaman.png'), {:class => 'memIcon d-none deleteme'}%></div>
-          <%else%>
-            <span class="iconNum d-none"><%=member.icon%></span>
-            <div class="iconSelector">
-              <%=image_tag image_url('aquaman.png'), {:class => 'memIcon d-none'}%></div>
+<div class="container-fluid h-100 blurbg">
+  <div class="row h-100 pt-3">
+    <div class="col-lg-3 scrolly">
+      <div class="card shadow">
+        <div class="card-header title text-uppercase"><%=@group.code%> | Members</div>
+        <ul class="list-group-flush p-0">
+          <%@members.each_with_index do |member, index|%>
+            <%if member == @member%>
+              <li class="list-group-item">
+                <div class="d-flex align-items-center justify-content-between">
+                  <div class="font-weight-bold"><%=member.name%></div>
+                  <span class="iconNum d-none displayme"><%=member.icon%></span>
+                  <div class="iconSelector selectme">
+                    <%=image_tag image_url('aquaman.png'), {:class => 'memIcon d-none deleteme'}%>
+                  </div>
+                </div>
+                <small>
+                  <div><%=member.place%></div>
+                </small>
+                <div class="input-group input-group-sm mt-1">
+                  <input class="form-control" id="person" placeholder="Search / Get Location"/>
+                  <div class="input-group-append">
+                    <button class="btn btn-sm btn-info" id="currentLocation"><i class="fa fa-map-pin"></i></button>
+                    <span class="btn btn-success greenButton d-none" id="place">Mark</span>
+                    <label for="confirm" class="btn btn-success m-0 disabled greenButton" id="magicbutton" disabled>Update</label>
+                  </div>
+                </div>
+              </li>
+            <%else%>
+              <li class="list-group-item">
+                <div class="d-flex align-items-center justify-content-between">
+                  <div class="font-weight-bold"><%=member.name%></div>
+                  <span class="iconNum d-none"><%=member.icon%></span>
+                  <div class="iconSelector">
+                    <%=image_tag image_url('aquaman.png'), {:class => 'memIcon d-none'}%>
+                  </div>
+                </div>
+                <small>
+                  <div><%=member.place%></div>
+                </small>
+              </li>
+            <%end%>
           <%end%>
-          <p class="card-text">
-            <%=member.place%>
-          </p>
+        </ul>
+      </div>
+    </div>
+    <div class="col-lg-6">
+      <div id="map" class="row w-100 h-75 shadow mx-auto"></div>
+      <div class="row">
+        <div class="input-group m-3 shadow" id="midFinder">
+          <select class="custom-select" id="type" aria-label="Example select with button addon">
+            <option value="cafe">Coffee</option>
+            <option value="restaurant">Restaurants</option>
+            <option value="bar">Bars</option>
+            <option value="shopping_mall">Shopping</option>
+          </select>
+          <div class="input-group-append">
+            <button class="btn btn-danger" type="button" id ="calc"><i class="fa fa-crosshairs"></i></button>
+          </div>
         </div>
       </div>
+    </div>
+    <div class="col-lg-3 scrolly">
+      <div class="card shadow">
+        <div class="card-header title text-uppercase">Results</div>
+        <ul class="list-group-flush p-0 d-none" id="listBoard">
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+<%= form_for :member, url: member_path(@member), method: :patch do |form| %>
+  <%= form.hidden_field :lat, {:id => "lat"} %>
+  <%= form.hidden_field :lon, {:id => "lon"} %>
+  <%= form.hidden_field :place, {:id => "address"} %>
+  <%= form.hidden_field :icon, {:id => "icon"} %>
+  <%= form.submit(class: "d-none", value: "Submit", id: "confirm", disabled: true) %>
+<% end %>
+<div class="d-none">
+  <div id="allName">
+    <%@members.each do |member|%>
+      <div class="allNames"><%= member.name %></div>
     <%end%>
   </div>
-  <div class="input-group mt-2" id="midFinder">
-    <select class="custom-select" id="type" aria-label="Example select with button addon">
-      <option value="cafe">Coffee</option>
-      <option value="restaurant">Restaurants</option>
-      <option value="bar">Bars</option>
-      <option value="shopping_mall">Shopping</option>
-    </select>
-    <div class="input-group-append">
-      <button class="btn btn-danger" type="button" id ="calc">Locate Mid</button>
-    </div>
+  <div id="allLat">
+    <%@members.each do |member|%>
+      <div class="lats"><%= member.lat %></div>
+    <%end%>
   </div>
-  <div id="map" class="w-100 mt-2"></div>
-  <!-- Button trigger modal -->
-  <button type="button" class="btn btn-primary invisible m-2 mx-auto" data-toggle="modal" data-target="#resultmodal" id='resultmodalbutton'>
-    Show Recommendations
-  </button>
-  <!-- Modal -->
-  <div class="modal fade" id="resultmodal" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">You should meet at...</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body" id="listBoard">
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        </div>
-      </div>
-    </div>
+  <div id="allLon">
+    <%@members.each do |member|%>
+      <div class="lons"><%= member.lon %></div>
+    <%end%>
   </div>
-  <div class="d-none">
-    <div id="allName">
-      <%@members.each do |member|%>
-        <div class="allNames"><%= member.name %></div>
-      <%end%>
-    </div>
-    <div id="allLat">
-      <%@members.each do |member|%>
-        <div class="lats"><%= member.lat %></div>
-      <%end%>
-    </div>
-    <div id="allLon">
-      <%@members.each do |member|%>
-        <div class="lons"><%= member.lon %></div>
-      <%end%>
-    </div>
-    <div id="allSel">
-      <%@members.each do |member|%>
-        <div class="allSels"><%= member.icon %></div>
-      <%end%>
-    </div>
+  <div id="allSel">
+    <%@members.each do |member|%>
+      <div class="allSels"><%= member.icon %></div>
+    <%end%>
   </div>
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCM3MixfBEjbgbPdvlSEu8kubULJuXv9bg&libraries=places&callback=initMap"
-	    async defer></script>
 </div>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCM3MixfBEjbgbPdvlSEu8kubULJuXv9bg&libraries=places&callback=initMap"
+	    async defer></script>
