@@ -8,6 +8,7 @@ class GroupsController < ApplicationController
   end
 
   def show
+    @map = "https://maps.googleapis.com/maps/api/js?key=#{ENV["GOOGLE"]}&libraries=places&callback=initMap"
     @group = Group.find_by(code: params[:code])
     @members = @group.members.all
     if user_signed_in?
