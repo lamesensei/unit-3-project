@@ -197,7 +197,7 @@ function markMid() {
 	});
 }
 
-function createMarker(place) {
+function createMarker(place, num) {
 	let image = {
 		url: ICONS[25],
 		scaledSize: new google.maps.Size(21,32)
@@ -206,14 +206,41 @@ function createMarker(place) {
 	var marker = new google.maps.Marker({
 		map: map,
 		position: place.geometry.location,
-		icon: image
+		icon: image,
+		animation: google.maps.Animation.DROP
 	});
 	mark.push(marker);
+
+	let infoWindow = new google.maps.InfoWindow({
+		content: place.name
+	});
 
 	google.maps.event.addListener(marker, 'click', function() {
 		infoWindow.setContent(place.name);
 		infoWindow.open(map, this);
 	});
+
+	let placeCard = document.getElementById(`result${num}`);
+
+	placeCard.addEventListener("mouseover", function() {
+		marker.setAnimation(google.maps.Animation.BOUNCE);
+		infoWindow.open(map, marker);
+	});
+
+	placeCard.addEventListener('mouseout', function() {
+    marker.setAnimation(-1);
+    infoWindow.close();
+  });
+}
+
+function hoverPlaces() {
+	let image = {
+		url: ICONS[25],
+		scaledSize: new google.maps.Size(21,32)
+	}
+
+
+
 }
 
 function findPlaces() {
@@ -261,7 +288,7 @@ function sortBy(arr, key) {
   const DETS = $('#listText');
   for (let i = 0; i < 10; i++) {
 			places = placesArr[i];
-			createMarker(places);
+
 
 			// Name
 			let placeName = places.name;
@@ -287,7 +314,7 @@ function sortBy(arr, key) {
 			doc.classList = "list-group-item p-0"
 			        doc.innerHTML = `
 
-<div class="container allPlaces p-1">
+<div class="container allPlaces p-1" id="result${[i]}">
 	<div class="row">
 		<div class="col-4 leftbar">
 		  <div class="places-images">
@@ -310,6 +337,8 @@ function sortBy(arr, key) {
 	</div>
 </div>
 	  `;
+	let resultNum = i;
+
   // Implementing Star Rating To See Stars Visually
   if (rating !== null || rating !== undefined) {
   let totalStars = 5
@@ -319,6 +348,9 @@ function sortBy(arr, key) {
   $('#listBoard').removeClass("d-none")
   $('#listBoard').append(doc);
   }
+
+createMarker(places, resultNum);
+
   }
   }
   }
