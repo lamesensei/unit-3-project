@@ -1,20 +1,24 @@
-html,
-body {
+html, body {
   height: 100%;
   margin: 0;
   padding: 0;
   background: url(https://picsum.photos/1920/1080/?random), image-url('grey-concrete.png');
   background-position: center;
-  // background-size:
-  background-repeat: repeat;
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
-.h-100 {
-	padding-top: 55px;
+body {
+ 	padding-top: 55px;
+	// background-color: transparent !important;
 }
 
 .title {
   font-family: 'Righteous', cursive;
+}
+
+.sidebars {
+	// padding-top: 55px;
 }
 
 .theme {
@@ -117,6 +121,17 @@ ul .dropdown-menu img:hover {
 
 .p-2 {
 	opacity: 0.9;
+}
+
+.places-images {
+	width: 100px;
+	height: 100px;
+}
+
+.places-images img{
+	width:100%;
+	height: 100%;
+	object-fit: contain;
 }
 
 @media only screen and (max-width: 990px) {

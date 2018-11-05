@@ -270,7 +270,7 @@ function sortBy(arr, key) {
 				photo = "<%= asset_path('no-image.png') %>";
 			} else {
 				// Photo URL
-				photo = places.photos[0].getUrl({ maxWidth: 500, maxHeight: 500 });
+				photo = places.photos[0].getUrl({ minWidth: 100, minHeight: 100 });
 			}
 
 			// Rating (out of 5)
@@ -285,20 +285,30 @@ function sortBy(arr, key) {
 			doc = document.createElement('li');
 			doc.classList = "list-group-item p-0"
 			        doc.innerHTML = `
-  <div>
-    <img class="img-fluid" src="${photo}" />
-  </div>
-  <div class="p-2">
-    <div class="font-weight-bold">
-      ${placeName}
-    </div>
-    <div class="stars-outer">
-      <div class="stars-inner"></div>
-    </div>
-    <div class="address h6 small"><a href="https://www.google.com/maps/place/${addressString}">${address}</a>
-    </div>
-  </div>
-  `;
+
+<div class="container">
+	<div class="row">
+		<div class="col-4 p-0">
+		  <div class="places-images">
+		    <img class="places-images" src="${photo}" />
+		  </div>
+		</div>
+		<div class="col-8 p-0">
+		  <div class="p-0">
+		    <div class="font-weight-bold">
+		      ${placeName}
+		    </div>
+		    <div class="stars-outer">
+		      <div class="stars-inner"></div>
+		    </div>
+		    <div class="address h6 small"><a href="https://www.google.com/maps/place/${addressString}">${address}</a>
+		    </div>
+		  </div>
+		</div>
+		</div>
+	</div>
+</div>
+	  `;
   // Implementing Star Rating To See Stars Visually
   if (rating !== null || rating !== undefined) {
   let totalStars = 5
