@@ -1,4 +1,4 @@
-html, body {
+html {
   height: 100%;
   margin: 0;
   padding: 0;
@@ -9,16 +9,31 @@ html, body {
 }
 
 body {
- 	padding-top: 55px;
-	// background-color: transparent !important;
+ 	height: 100%;
+ 	background-color: transparent !important;
+}
+
+.sidebars {
+	padding-top: 55px;
 }
 
 .title {
   font-family: 'Righteous', cursive;
 }
 
-.sidebars {
-	// padding-top: 55px;
+.allPlaces {
+	display: table;
+	vertical-align: middle;
+}
+
+.leftbar {
+	vertical-align: middle;
+	display: table-cell;
+}
+
+.rightbar {
+	vertical-align: middle;
+	display: table-cell;
 }
 
 .theme {
@@ -46,7 +61,7 @@ body {
 }
 
 #map {
-  height: 85vh;
+  height: auto;
   width: 100%;
 }
 
@@ -61,7 +76,7 @@ body {
 	bottom: 20px;
 	z-index: 20;
 	position: absolute;
-	padding: 0 10px;
+	// padding:px;
 }
 
 .scrolly {
