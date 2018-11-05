@@ -1,20 +1,39 @@
-html,
-body {
+html {
   height: 100%;
   margin: 0;
   padding: 0;
   background: url(https://picsum.photos/1920/1080/?random), image-url('grey-concrete.png');
   background-position: center;
-  // background-size:
-  background-repeat: repeat;
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
-.h-100 {
+body {
+ 	height: 100%;
+ 	background-color: transparent !important;
+}
+
+.sidebars {
 	padding-top: 55px;
 }
 
 .title {
   font-family: 'Righteous', cursive;
+}
+
+.allPlaces {
+	display: table;
+	vertical-align: middle;
+}
+
+.leftbar {
+	vertical-align: middle;
+	display: table-cell;
+}
+
+.rightbar {
+	vertical-align: middle;
+	display: table-cell;
 }
 
 .theme {
@@ -42,7 +61,7 @@ body {
 }
 
 #map {
-  height: 85vh;
+  height: auto;
   width: 100%;
 }
 
@@ -57,7 +76,7 @@ body {
 	bottom: 20px;
 	z-index: 20;
 	position: absolute;
-	padding: 0 10px;
+	// padding:px;
 }
 
 .scrolly {
@@ -117,6 +136,17 @@ ul .dropdown-menu img:hover {
 
 .p-2 {
 	opacity: 0.9;
+}
+
+.places-images {
+	width: 100px;
+	height: 100px;
+}
+
+.places-images img{
+	width:100%;
+	height: 100%;
+	object-fit: contain;
 }
 
 @media only screen and (max-width: 990px) {
