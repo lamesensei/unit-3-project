@@ -1,29 +1,54 @@
-# Unit 3 - Group Project
+# RUMU
 
-_A Ruby on Rails CRUD app_
+![screenshot](docs/screenshots/screenshot.png)
 
-Never worry about travel time ever again - this app will find the best spots in Singapore to meet your buddies.
+_Ready Up; Meet Up_
 
-## Features / TODO
+ Friends all over the place? Can't decide where to meet?
+ Let RUMU do all the heavy lifting!
 
-### Wireframing
+## Features
 
-- [ ] Problem Statement:
-- [ ] Problem Solution:
-- [ ] User Stories
-- [x] ERD
+- Sign up and create groups
+- Join existing groups with a simple code (no registration required!)
+	- Set your location via GPS or search for it
+	- Custom avatars
+- Calculate the best meeting point between all members
+	- Get the best coffee places, bars, restaurant or shopping recommendations
+	- Show travel time and distance for each individual member
+- Don't like the meeting point? Drag it around to get new results!
 
-### Code
+## Installation
 
-- [x] User Authentication
-- [ ] User Authorization
-- [ ] File/image upload
-- [ ] API Usage
-- [ ] CRUD
+Install the required gem dependencies
 
-## Admin Info
+```
+bundle install
+```
 
-### Team
+Initate the Rails DB (postgresql)
+
+```
+rails db:create
+rails db:migrate
+```
+
+Start the server
+```
+rails server
+```
+Your local copy of RUMU should be up and running at http://localhost:3000
+
+## Technologies
+
+- **[Ruby 2.5.1](https://www.ruby-lang.org/en/)** - Main Language
+- **[Rails 5.2.1](https://rubyonrails.org)** - Backend Framework
+- **[PostgreSQL 10.5]()** - SQL Database
+- **[Bootstrap](https://getbootstrap.com/)** - CSS Framework
+- **[Google Maps API](https://developers.google.com/maps/documentation/)** - Geolocation Features
+- **[Heroku](https://heroku.com)** - Demo Deployment
+
+## Team
 
 - [LJ](https://www.github.com/lamesensei)
 - [Chris](https://github.com/chrismintan)
@@ -36,4 +61,4 @@ Never worry about travel time ever again - this app will find the best spots in 
 - [Wireframes](docs/wireframes)
 - [ERD](docs/ERD)
 
-### Others
+
